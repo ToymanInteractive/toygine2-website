@@ -16,6 +16,7 @@ const config: Config = {
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    faster: true, // Enable Rspack/SWC-based faster builds (@docusaurus/faster)
   },
 
   url: `https://${organizationName}.github.io`,
@@ -47,8 +48,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`,
         },
         blog: {
@@ -57,8 +56,6 @@ const config: Config = {
             type: ["rss", "atom"],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`,
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
@@ -79,9 +76,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: "My Site",
+      title: "ToyGine2",
       logo: {
-        alt: "My Site Logo",
+        alt: "ToyGine2 Logo",
         src: "img/logo.svg",
       },
       items: [
@@ -89,11 +86,11 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Docs",
         },
-        { to: "/blog", label: "Blog", position: "left" },
+        { to: "/blog", label: "Devlog", position: "left" },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: `https://github.com/${organizationName}/${projectName}`,
           label: "GitHub",
           position: "right",
         },
@@ -106,7 +103,7 @@ const config: Config = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
+              label: "Introduction",
               to: "/docs/intro",
             },
           ],
@@ -132,17 +129,17 @@ const config: Config = {
           title: "More",
           items: [
             {
-              label: "Blog",
+              label: "Devlog",
               to: "/blog",
             },
             {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: `https://github.com/${organizationName}/${projectName}`,
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Toyman Interactive. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
