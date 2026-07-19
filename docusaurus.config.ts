@@ -69,11 +69,19 @@ const config: Config = {
     ],
   ],
 
+  stylesheets: [
+    {
+      href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap",
+      type: "text/css",
+    },
+  ],
+
   themeConfig: {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: "dark",
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: "ToyGine2",

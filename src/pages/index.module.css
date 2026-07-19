@@ -1,23 +1,137 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.hero {
+  padding: 5rem 0 3rem;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.eyebrow {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  color: var(--ifm-link-color);
+  margin-bottom: 0.75rem;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+  font-size: 1rem;
+  color: var(--ifm-color-content-secondary);
+  max-width: 32rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.platformBar {
+  display: flex;
+  height: 2rem;
+  gap: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.platformSegment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.platformGBA {
+  background: #c98a3e;
+  color: #2c1a08;
+}
+
+.platformNDS {
+  background: #b57c38;
+  color: #2c1a08;
+}
+
+.platformSTEAMDECK {
+  background: #5fa8a0;
+  color: #04342c;
+}
+
+.platformSWITCH {
+  background: #4c8f88;
+  color: #04342c;
+}
+
+.platformDESKTOP {
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-font-color-base);
+}
+
+.platformCaption {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  color: var(--ifm-color-content-secondary);
+  margin-bottom: 2rem;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 0.75rem;
+}
+
+.buttonPrimary {
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  background: transparent;
+}
+
+.buttonSecondary {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  color: var(--ifm-font-color-base);
+  background: transparent;
+}
+
+.principles {
+  padding: 2rem 0 4rem;
+}
+
+.principlesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.principleCard {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 1.5rem;
+}
+
+.principleMarker {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.principleTitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.principleDescription {
+  font-size: 0.875rem;
+  color: var(--ifm-color-content-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .principlesGrid {
+    grid-template-columns: 1fr;
+  }
 }

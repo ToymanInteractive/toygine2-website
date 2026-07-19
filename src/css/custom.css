@@ -1,30 +1,96 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+/* =========================================================
+   toygine2-site — custom theme ("memory map" direction)
+   Dark navy background, copper + teal accents, monospace
+   headings, zero border-radius. Light mode stays close to
+   Infima defaults with only the accent color swapped.
+   ========================================================= */
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* --- Copper accent, approximate Infima 7-step ramp ---
+     Computed by hand (simple black/white mix at Infima's
+     documented percentages: dark 10/15/30%, light 15/30/50%).
+     Run the base color through the official generator at
+     https://docusaurus.io/docs/styling-layout for exact values
+     before shipping — this is a working approximation. */
+  --ifm-color-primary: #c98a3e;
+  --ifm-color-primary-dark: #b57c38;
+  --ifm-color-primary-darker: #ab7535;
+  --ifm-color-primary-darkest: #8c612b;
+  --ifm-color-primary-light: #d19c5b;
+  --ifm-color-primary-lighter: #d9ad78;
+  --ifm-color-primary-lightest: #e4c49f;
+
+  /* Typography — monospace headings is the one deliberate risk */
+  --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  --ifm-heading-font-family: 'JetBrains Mono', var(--ifm-font-family-monospace);
+  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+  /* Sharp corners everywhere: this one variable cascades to
+     card/badge/alert/pagination-nav via calc() in Infima */
+  --ifm-global-radius: 0;
+  --ifm-button-border-radius: 0;
+  --ifm-code-border-radius: 0;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark mode — the actual "memory map" identity */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #c98a3e;
+  --ifm-color-primary-dark: #b57c38;
+  --ifm-color-primary-darker: #ab7535;
+  --ifm-color-primary-darkest: #8c612b;
+  --ifm-color-primary-light: #d19c5b;
+  --ifm-color-primary-lighter: #d9ad78;
+  --ifm-color-primary-lightest: #e4c49f;
+
+  --ifm-background-color: #11151c;
+  --ifm-background-surface-color: #1a2029;
+
+  --ifm-navbar-background-color: #11151c;
+  --ifm-navbar-shadow: none;
+  --ifm-footer-background-color: #1a2029;
+
+  /* Hairline borders/dividers used across cards, ToC, <hr> */
+  --ifm-color-emphasis-300: #3a4250;
+  --ifm-toc-border-color: #3a4250;
+  --ifm-hr-border-color: #3a4250;
+
+  --ifm-font-color-base: #e4dfd3;
+  --ifm-color-content-secondary: #8d96a6;
+
+  /* Links get the teal, kept separate from the copper brand color */
+  --ifm-link-color: #5fa8a0;
+  --ifm-link-hover-color: #7bbdb6;
+
+  --ifm-code-background: #1a2029;
 }
+
+/* Slight negative tracking reads better in a monospace display face
+   at heading sizes */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.01em;
+}
+
+/* Brand mark in the navbar uses the accent copper, not the default
+   link color, and stays in the display face at all times */
+.navbar__brand {
+  font-family: var(--ifm-heading-font-family);
+  color: var(--ifm-color-primary);
+}
+
+/* Explicit 1px hairline on cards so they read against the dark
+   surface even though --ifm-card-background-color is very close
+   to --ifm-background-color */
+.card {
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Admonition colors (Tip/Info/Warning/Danger) are intentionally left
+   at Docusaurus's own dark-mode defaults for now — only Note
+   (which follows --ifm-color-primary) picks up the copper. Revisit
+   if the five admonition colors end up clashing with the palette
+   once real content is in place. */
