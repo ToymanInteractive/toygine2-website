@@ -6,62 +6,62 @@
    ========================================================= */
 
 :root {
-  /* --- Copper accent, approximate Infima 7-step ramp ---
+   /* --- Copper accent, approximate Infima 7-step ramp ---
      Computed by hand (simple black/white mix at Infima's
      documented percentages: dark 10/15/30%, light 15/30/50%).
      Run the base color through the official generator at
      https://docusaurus.io/docs/styling-layout for exact values
      before shipping — this is a working approximation. */
-  --ifm-color-primary: #c98a3e;
-  --ifm-color-primary-dark: #b57c38;
-  --ifm-color-primary-darker: #ab7535;
-  --ifm-color-primary-darkest: #8c612b;
-  --ifm-color-primary-light: #d19c5b;
-  --ifm-color-primary-lighter: #d9ad78;
-  --ifm-color-primary-lightest: #e4c49f;
+   --ifm-color-primary: #c98a3e;
+   --ifm-color-primary-dark: #b57c38;
+   --ifm-color-primary-darker: #ab7535;
+   --ifm-color-primary-darkest: #8c612b;
+   --ifm-color-primary-light: #d19c5b;
+   --ifm-color-primary-lighter: #d9ad78;
+   --ifm-color-primary-lightest: #e4c49f;
 
-  /* Typography — monospace headings is the one deliberate risk */
-  --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', monospace;
-  --ifm-heading-font-family: 'JetBrains Mono', var(--ifm-font-family-monospace);
-  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+   /* Typography — monospace headings is the one deliberate risk */
+   --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', monospace;
+   --ifm-heading-font-family: 'JetBrains Mono', var(--ifm-font-family-monospace);
+   --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
 
-  /* Sharp corners everywhere: this one variable cascades to
+   /* Sharp corners everywhere: this one variable cascades to
      card/badge/alert/pagination-nav via calc() in Infima */
-  --ifm-global-radius: 0;
-  --ifm-button-border-radius: 0;
-  --ifm-code-border-radius: 0;
+   --ifm-global-radius: 0;
+   --ifm-button-border-radius: 0;
+   --ifm-code-border-radius: 0;
 }
 
 /* Dark mode — the actual "memory map" identity */
 [data-theme='dark'] {
-  --ifm-color-primary: #c98a3e;
-  --ifm-color-primary-dark: #b57c38;
-  --ifm-color-primary-darker: #ab7535;
-  --ifm-color-primary-darkest: #8c612b;
-  --ifm-color-primary-light: #d19c5b;
-  --ifm-color-primary-lighter: #d9ad78;
-  --ifm-color-primary-lightest: #e4c49f;
+   --ifm-color-primary: #c98a3e;
+   --ifm-color-primary-dark: #b57c38;
+   --ifm-color-primary-darker: #ab7535;
+   --ifm-color-primary-darkest: #8c612b;
+   --ifm-color-primary-light: #d19c5b;
+   --ifm-color-primary-lighter: #d9ad78;
+   --ifm-color-primary-lightest: #e4c49f;
 
-  --ifm-background-color: #11151c;
-  --ifm-background-surface-color: #1a2029;
+   --ifm-background-color: #11151c;
+   --ifm-background-surface-color: #1a2029;
 
-  --ifm-navbar-background-color: #11151c;
-  --ifm-navbar-shadow: none;
-  --ifm-footer-background-color: #1a2029;
+   --ifm-navbar-background-color: #11151c;
+   --ifm-navbar-shadow: none;
+   --ifm-footer-background-color: #1a2029;
 
-  /* Hairline borders/dividers used across cards, ToC, <hr> */
-  --ifm-color-emphasis-300: #3a4250;
-  --ifm-toc-border-color: #3a4250;
-  --ifm-hr-border-color: #3a4250;
+   /* Hairline borders/dividers used across cards, ToC, <hr> */
+   --ifm-color-emphasis-300: #3a4250;
+   --ifm-toc-border-color: #3a4250;
+   --ifm-hr-border-color: #3a4250;
 
-  --ifm-font-color-base: #e4dfd3;
-  --ifm-color-content-secondary: #8d96a6;
+   --ifm-font-color-base: #e4dfd3;
+   --ifm-color-content-secondary: #8d96a6;
 
-  /* Links get the teal, kept separate from the copper brand color */
-  --ifm-link-color: #5fa8a0;
-  --ifm-link-hover-color: #7bbdb6;
+   /* Links get the teal, kept separate from the copper brand color */
+   --ifm-link-color: #5fa8a0;
+   --ifm-link-hover-color: #7bbdb6;
 
-  --ifm-code-background: #1a2029;
+   --ifm-code-background: #1a2029;
 }
 
 /* Slight negative tracking reads better in a monospace display face
@@ -72,21 +72,21 @@ h3,
 h4,
 h5,
 h6 {
-  letter-spacing: -0.01em;
+   letter-spacing: -0.01em;
 }
 
 /* Brand mark in the navbar uses the accent copper, not the default
    link color, and stays in the display face at all times */
 .navbar__brand {
-  font-family: var(--ifm-heading-font-family);
-  color: var(--ifm-color-primary);
+   font-family: var(--ifm-heading-font-family);
+   color: var(--ifm-color-primary);
 }
 
 /* Explicit 1px hairline on cards so they read against the dark
    surface even though --ifm-card-background-color is very close
    to --ifm-background-color */
 .card {
-  border: 1px solid var(--ifm-color-emphasis-300);
+   border: 1px solid var(--ifm-color-emphasis-300);
 }
 
 /* Admonition colors (Tip/Info/Warning/Danger) are intentionally left
