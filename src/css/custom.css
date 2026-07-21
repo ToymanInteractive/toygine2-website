@@ -21,7 +21,7 @@
   --ifm-color-primary-lightest: #e4c49f;
 
   /* Typography — monospace headings is the one deliberate risk */
-  --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', monospace;
   --ifm-heading-font-family: 'JetBrains Mono', var(--ifm-font-family-monospace);
   --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
 
