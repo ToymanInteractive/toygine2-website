@@ -16,7 +16,9 @@
     "typecheck": "tsc",
     "prebuild": "npm run generate-platform-tags",
     "prestart": "npm run generate-platform-tags",
-    "pretypecheck": "npm run generate-platform-tags"
+    "pretypecheck": "npm run generate-platform-tags",
+    "crowdin:upload": "npx @crowdin/cli upload sources",
+    "crowdin:download": "npx @crowdin/cli download"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
