@@ -2,7 +2,7 @@
 slug: first-post-ru
 title: На этот раз всё серьёзно (и про игры тоже)
 authors: [dmitry]
-tags: []
+tags: [gba, retro, demoscene, romhacking, personal]
 date: 2026-07-19
 ---
 

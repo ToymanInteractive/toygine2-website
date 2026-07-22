@@ -1,3 +1,18 @@
 gba:
   label: GBA
   description: Development for Game Boy Advance
+retro:
+  label: Retro
+  description: Retro computing and gaming
+demoscene:
+  label: Demoscene
+  description: Demoscene culture and demomaking
+romhacking:
+  label: ROM Hacking
+  description: ROM hacking and fan translations
+personal:
+  label: Personal
+  description: Personal stories and background
+cpp:
+  label: C++
+  description: C++ programming language
