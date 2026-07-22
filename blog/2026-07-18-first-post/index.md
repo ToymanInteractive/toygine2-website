@@ -2,7 +2,7 @@
 slug: first-post
 title: This Time It's Personal (and Also About Games)
 authors: [dmitry]
-tags: []
+tags: [gba, retro, demoscene, romhacking, personal]
 date: 2026-07-19
 ---
 
