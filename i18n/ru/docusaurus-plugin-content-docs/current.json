@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.architecture": {
-    "message": "architecture",
+    "message": "Архитектура",
     "description": "The label for category 'architecture' in sidebar 'tutorialSidebar'"
   }
 }
