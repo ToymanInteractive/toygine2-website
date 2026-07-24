@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "ToyGine2",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "ToyGine2 Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Docs": {
+    "message": "Документация",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.Devlog": {
+    "message": "Devlog",
+    "description": "Navbar item with label Devlog"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

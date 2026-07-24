@@ -32,7 +32,19 @@ const config: Config = {
     hooks: { onBrokenMarkdownLinks: "warn" },
   },
 
-  themes: ["@docusaurus/theme-mermaid"],
+  themes: [
+    "@docusaurus/theme-mermaid",
+    [
+      "@easyops-cn/docusaurus-search-local",
+      {
+        hashed: true,
+        language: ["en", "ru"],
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: false,
+      },
+    ],
+  ],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
