@@ -53,6 +53,25 @@ jobs:
           doxygen --version
 
       - name: Build Doxygen XML
+        working-directory: engine
         run: |
           cmake -DTOYGINE_BUILD_BENCHMARKS=OFF -DTOYGINE_BUILD_DOCS=ON -DTOYGINE_BUILD_EDITOR=OFF -DTOYGINE_BUILD_SAMPLES=OFF -DTOYGINE_BUILD_TESTS=OFF --preset linux-debug
           cmake --build --preset linux-debug --target docs
+
+      - name: Sync API XML
+        id: sync
+        run: |
+          test -f engine/docs/xml/index.xml || { echo "Doxygen produced no flat XML in engine/docs/xml"; exit 1; }
+
+          rm -rf api-xml
+          mkdir -p api-xml
+          cp -R engine/docs/xml/. api-xml/
+          echo "Synced $(find api-xml -name '*.xml' | wc -l) XML files"
+
+          if [[ -z "$(git status --porcelain -- api-xml)" ]]; then
+            echo "changed=false" >>"${GITHUB_OUTPUT}"
+            echo "API XML is unchanged, nothing to commit"
+          else
+            echo "changed=true" >>"${GITHUB_OUTPUT}"
+            git status --short -- api-xml
+          fi
