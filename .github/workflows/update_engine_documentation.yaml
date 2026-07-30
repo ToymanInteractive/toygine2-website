@@ -1,0 +1,28 @@
+name: Update engine documentation
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    concurrency:
+      group: update-engine-documentation
+      cancel-in-progress: false
+    name: Bump Engine Documentation
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
