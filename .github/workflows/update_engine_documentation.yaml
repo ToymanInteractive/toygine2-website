@@ -3,6 +3,10 @@ name: Update engine documentation
 on:
   push:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -23,14 +27,32 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Checkout engine sources
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
         with:
           repository: ToymanInteractive/toygine2
           ref: main
           path: engine
+          submodules: recursive
           persist-credentials: false
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y graphviz
+          curl --fail -L https://github.com/doxygen/doxygen/releases/download/Release_1_17_0/doxygen-1.17.0.linux.bin.tar.gz -o doxygen.tar.gz || { echo "Failed to download Doxygen"; exit 1; }
+          tar -xzf doxygen.tar.gz || { echo "Failed to extract Doxygen"; exit 1; }
+          cd doxygen-*
+          sudo cp bin/doxygen /usr/local/bin/ || { echo "Failed to install Doxygen"; exit 1; }
+          cd ..
+          rm -rf doxygen-* doxygen.tar.gz
+          doxygen --version
+
+      - name: Build Doxygen XML
+        run: |
+          cmake -DTOYGINE_BUILD_BENCHMARKS=OFF -DTOYGINE_BUILD_DOCS=ON -DTOYGINE_BUILD_EDITOR=OFF -DTOYGINE_BUILD_SAMPLES=OFF -DTOYGINE_BUILD_TESTS=OFF --preset linux-debug
+          cmake --build --preset linux-debug --target docs
