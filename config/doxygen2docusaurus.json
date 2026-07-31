@@ -1,0 +1,19 @@
+{
+  "doxygenXmlInputFolderPath": "engine/docs/xml",
+  "docsFolderPath": "docs",
+  "apiFolderPath": "api",
+  "baseUrl": "/",
+  "docsBaseUrl": "docs",
+  "apiBaseUrl": "api",
+  "imagesFolderPath": "assets/images/doxygen",
+  "sidebarCategoryFilePath": "sidebar-category-doxygen.json",
+  "sidebarCategoryLabel": "API Reference",
+  "navbarDropdownFilePath": "docusaurus-config-navbar-doxygen.json",
+  "navbarDropdownLabel": "API",
+  "navbarDropdownPosition": "left",
+  "customCssFilePath": "src/css/custom-doxygen2docusaurus.css",
+  "renderProgramListing": false,
+  "renderProgramListingInline": false,
+  "suggestToDoDescriptions": false,
+  "listPagesAtTop": true
+}
