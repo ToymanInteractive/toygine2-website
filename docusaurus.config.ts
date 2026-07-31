@@ -144,7 +144,7 @@ const config: Config = {
         doxygenNavbarItem,
         { to: "/blog", label: "Devlog", position: "left" },
         {
-          href: `https://github.com/${organizationName}/${projectName}`,
+          href: `https://github.com/${organizationName}/toygine2`,
           label: "GitHub",
           position: "right",
         },
@@ -192,7 +192,7 @@ const config: Config = {
             },
             {
               label: "GitHub",
-              href: `https://github.com/${organizationName}/${projectName}`,
+              href: `https://github.com/${organizationName}/toygine2`,
             },
           ],
         },
