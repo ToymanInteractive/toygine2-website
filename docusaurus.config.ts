@@ -29,6 +29,8 @@ const config: Config = {
   onBrokenLinks: "throw",
   markdown: {
     mermaid: true,
+    // .md as CommonMark (what doxygen2docusaurus emits), .mdx as MDX
+    format: "detect",
     hooks: { onBrokenMarkdownLinks: "warn" },
   },
 
@@ -75,7 +77,10 @@ const config: Config = {
           onUntruncatedBlogPosts: "warn",
         },
         theme: {
-          customCss: "./src/css/custom.css",
+          // Doxygen styles first so custom.css can override them
+          customCss: [
+            "./src/css/custom.css",
+          ],
         },
       } satisfies Preset.Options,
     ],
