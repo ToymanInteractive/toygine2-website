@@ -54,6 +54,8 @@ jobs:
         run: |
           cmake -DTOYGINE_BUILD_BENCHMARKS=OFF -DTOYGINE_BUILD_DOCS=ON -DTOYGINE_BUILD_EDITOR=OFF -DTOYGINE_BUILD_SAMPLES=OFF -DTOYGINE_BUILD_TESTS=OFF --preset linux-debug
           cmake --build --preset linux-debug --target docs
+          # doxygen2docusaurus reads engine/docs/xml, see config/doxygen2docusaurus.json
+          test -f docs/xml/index.xml || { echo "Doxygen produced no XML in engine/docs/xml"; exit 1; }
 
       - name: Build
         run: npm run build
