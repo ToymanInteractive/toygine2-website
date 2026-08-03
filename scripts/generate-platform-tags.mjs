@@ -20,14 +20,29 @@ import path from 'node:path';
 const PLATFORM_TAGS = [
     { tag: 'md', label: 'MD', color: '#6F7DB2', textColor: '#0C1026' },
     { tag: 'n64', label: 'N64', color: '#5C8F4E', textColor: '#0C1F08' },
-    { tag: 'gamecube', label: 'GAMECUBE', color: '#8475AE', textColor: '#150C26' },
+    {
+        tag: 'gamecube',
+        label: 'GAMECUBE',
+        color: '#8475AE',
+        textColor: '#150C26',
+    },
     { tag: 'wii', label: 'WII', color: '#B9C4CC', textColor: '#0F1A20' },
     { tag: 'gba', label: 'GBA', color: '#C98A3E', textColor: '#2C1A08' },
     { tag: 'nds', label: 'NDS', color: '#B57C38', textColor: '#2C1A08' },
     { tag: '3ds', label: '3DS', color: '#BF6959', textColor: '#2C0A08' },
     { tag: 'switch', label: 'SWITCH', color: '#33665F', textColor: '#E4DFD3' },
-    { tag: 'steamdeck', label: 'STEAMDECK', color: '#5FA8A0', textColor: '#04342C' },
-    { tag: 'windows', label: 'WINDOWS', color: '#5A8BB0', textColor: '#04202C' },
+    {
+        tag: 'steamdeck',
+        label: 'STEAM DECK',
+        color: '#5FA8A0',
+        textColor: '#04342C',
+    },
+    {
+        tag: 'windows',
+        label: 'WINDOWS',
+        color: '#5A8BB0',
+        textColor: '#04202C',
+    },
     { tag: 'macos', label: 'MACOS', color: '#8A8F99', textColor: '#14171C' },
     { tag: 'linux', label: 'LINUX', color: '#3A4250', textColor: '#E4DFD3' },
 ];
