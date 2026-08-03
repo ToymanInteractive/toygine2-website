@@ -88,3 +88,20 @@ Chain: CI builds the engine's `docs` target → `engine/docs/xml/` → `doxygen2
 * **Versions:** One identical version across `@docusaurus/*`; pin generators exactly (`"@xpack/doxygen2docusaurus": "2.2.1"`) — a patch release can reshape `docs/api/**`.
 * **Overrides:** `overrides` in `package.json` only to unblock a transitive conflict, with a comment naming the upstream issue.
 * **Removing:** `npm uninstall`, then drop the config it fed — preset entry, import, npm script — and rerun `npm run build`.
+
+## Code Quality
+
+* **Code structure:** `scripts/` derive data, components render it, `docusaurus.config.ts` wires the site. A component reads generated JSON and props — it never touches the filesystem or recomputes what a generator wrote.
+* **Naming conventions:** Meaningful, unabbreviated names. `PascalCase` for components, types and their folders; `camelCase` for variables, functions, props, hooks; `SCREAMING_SNAKE_CASE` for module-level constants; kebab-case for scripts, CSS modules, assets and content folders — a content folder name is the URL slug, so keep it stable.
+* **Conciseness:** As short as stays clear. Built-in Docusaurus features over hand-rolled ones.
+* **Simplicity:** Clever code is hard to maintain and fights the SSR + MDX pipeline first.
+* **Error Handling:** Fail loudly. A generator on bad input throws and exits non-zero instead of writing a truncated file — silence there means a green build with an empty page. In `src/`, no empty `catch`; guard missing generated data at render, as `index.tsx` does with `platformTags.length > 0`.
+* **Styling:**
+  * Line length: Lines should be 80 characters or fewer.
+  * Format with Prettier; match the file's existing indentation.
+  * Inline styles only for runtime-computed values (tag color, flex ratio); the rest goes in the CSS module.
+* **Functions:**
+  * Keep functions short and with a single purpose. Strive for less than 20 lines.
+  * Past a screenful of JSX, extract a subcomponent; shared markup moves to `src/components/<Name>/`.
+* **Testing:** No unit-test runner — `npm run typecheck` and `npm run build` are the gate, so keep code they can catch: typed exports, no `any`. Generator logic goes in pure functions over input paths, with `fs`, `path` and `process` at the edges, so a fixture directory can be pointed at them.
+* **Logging:** In `scripts/`, one `console.log` summary line of what was written (see `generate-platform-tags.mjs`), `console.error` before a non-zero exit. Nothing in `src/` logs — it ships to the browser and runs during SSR.
