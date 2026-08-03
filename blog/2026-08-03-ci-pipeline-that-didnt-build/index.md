@@ -9,6 +9,10 @@ vibe: marple
 date: 2026-08-03
 ---
 
+:::info
+**[ToyGine2 26.16.0](https://github.com/ToymanInteractive/toygine2/releases/tag/26.16.0)** is out now on GitHub — built by the pipeline this article describes.
+:::
+
 Last time I explained why I am writing a game engine from scratch in 2026. Two weeks have passed. The code is not any better. But now I have CI. At least I thought I did.
 
 <!-- truncate -->
