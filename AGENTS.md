@@ -103,5 +103,5 @@ Chain: CI builds the engine's `docs` target → `engine/docs/xml/` → `doxygen2
 * **Functions:**
   * Keep functions short and with a single purpose. Strive for less than 20 lines.
   * Past a screenful of JSX, extract a subcomponent; shared markup moves to `src/components/<Name>/`.
-* **Testing:** No unit-test runner — `npm run typecheck` and `npm run build` are the gate, so keep code they can catch: typed exports, no `any`. Generator logic goes in pure functions over input paths, with `fs`, `path` and `process` at the edges, so a fixture directory can be pointed at them.
+* **Testing:** No unit-test runner — `npm run typecheck` and `npm run build` are the gate, so keep code they can catch: typed exports, no implicit `any` (`strict` is on in `tsconfig.json`). Generator logic goes in pure functions over input paths, with `fs`, `path` and `process` at the edges, so a fixture directory can be pointed at them.
 * **Logging:** In `scripts/`, one `console.log` summary line of what was written (see `generate-platform-tags.mjs`), `console.error` before a non-zero exit. Nothing in `src/` logs — it ships to the browser and runs during SSR.

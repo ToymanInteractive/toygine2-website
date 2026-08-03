@@ -14,18 +14,20 @@ import path from 'node:path';
 // Порядок здесь = порядок сегментов в баре: от ретро к современному,
 // консоли слева, десктоп справа. Список зеркалит platform-* пресеты
 // из CMakePresets.json движка (плюс steamdeck — отдельная железка,
-// собирается линуксовым пресетом).
+// собирается линуксовым пресетом). Метка в баре — 0.65rem, обычный
+// текст по WCAG, поэтому пара color/textColor должна давать контраст
+// не ниже 4.5:1.
 const PLATFORM_TAGS = [
-    { tag: 'md', label: 'MD', color: '#5B6BA8', textColor: '#0C1026' },
+    { tag: 'md', label: 'MD', color: '#6F7DB2', textColor: '#0C1026' },
     { tag: 'n64', label: 'N64', color: '#5C8F4E', textColor: '#0C1F08' },
-    { tag: 'gamecube', label: 'GAMECUBE', color: '#7B6BA8', textColor: '#150C26' },
+    { tag: 'gamecube', label: 'GAMECUBE', color: '#8475AE', textColor: '#150C26' },
     { tag: 'wii', label: 'WII', color: '#B9C4CC', textColor: '#0F1A20' },
     { tag: 'gba', label: 'GBA', color: '#C98A3E', textColor: '#2C1A08' },
     { tag: 'nds', label: 'NDS', color: '#B57C38', textColor: '#2C1A08' },
-    { tag: '3ds', label: '3DS', color: '#B5503E', textColor: '#2C0A08' },
-    { tag: 'switch', label: 'SWITCH', color: '#4C8F88', textColor: '#04342C' },
+    { tag: '3ds', label: '3DS', color: '#BF6959', textColor: '#2C0A08' },
+    { tag: 'switch', label: 'SWITCH', color: '#33665F', textColor: '#E4DFD3' },
     { tag: 'steamdeck', label: 'STEAMDECK', color: '#5FA8A0', textColor: '#04342C' },
-    { tag: 'windows', label: 'WINDOWS', color: '#4A7FA8', textColor: '#04202C' },
+    { tag: 'windows', label: 'WINDOWS', color: '#5A8BB0', textColor: '#04202C' },
     { tag: 'macos', label: 'MACOS', color: '#8A8F99', textColor: '#14171C' },
     { tag: 'linux', label: 'LINUX', color: '#3A4250', textColor: '#E4DFD3' },
 ];

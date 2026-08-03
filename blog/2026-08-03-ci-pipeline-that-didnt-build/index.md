@@ -16,7 +16,7 @@ Last time I explained why I am writing a game engine from scratch in 2026. Two w
 ## TL;DR
 
 - A CI workflow written in late July had a matrix of 15 configurations. It did exactly one thing: `actions/checkout`.
-- The Docker image for Sega Mega Drive did not contain git. Checkout silently fell back to the REST API. Submodules broke. Nobody screamed.
+- The Docker image for Sega Mega Drive did not contain git. Checkout fell back to the REST API, logged one line about it, and carried on. Submodules broke. Nobody screamed.
 - Over two weeks the pipeline went from a stub to building on four platforms: Linux, macOS, Windows, and Sega MD.
 - Side effects: the images got a linter, smoke tests, and documented environment variables.
 
@@ -30,7 +30,7 @@ Last time I explained why I am writing a game engine from scratch in 2026. Two w
 
 ## Part One. The Crime
 
-It was a Thursday evening. The first blog post was up. The site worked. The engine compiled locally. I opened the repository to check on CI and found a file called `build_cmake.yaml`. A hundred and twenty two lines.
+It was a Thursday evening. The first blog post was up. The site worked. The engine compiled locally. I opened the repository to check on CI and found a file called `build_cmake.yaml`. A hundred and twenty-two lines.
 
 It looked solid. A matrix of 15 configurations. Windows MSVC x64 and x86. macOS Xcode and Ninja on arm64 and Intel. Linux Ninja x64 and arm64. Seven console targets on top: MD, GBA, NDS, 3DS, Switch, GameCube, Wii. Containers, timeouts, `secrets: inherit`. Impressive.
 
@@ -48,12 +48,12 @@ The first thought was obvious. Add `cmake --preset` and `cmake --build --preset`
 
 I pushed the change. CI fell over. Not on configure. Not on build. On checkout.
 
-The log was strange. `actions/checkout` printed: "The repository will be downloaded using the GitHub REST API. Input 'submodules' not supported when falling back to download using the GitHub REST API." The Docker image `toygine2.md.toolchain` did not contain git. At all. Checkout, finding no git in the container, silently switched to downloading a tarball through the REST API. Tarballs do not do submodules.
+The log was strange. `actions/checkout` printed: "The repository will be downloaded using the GitHub REST API. Input 'submodules' not supported when falling back to download using the GitHub REST API." The Docker image `toygine2.md.toolchain` did not contain git. At all. Checkout, finding no git in the container, switched to downloading a tarball through the REST API. Tarballs do not do submodules.
 
 <details>
-<summary>Why checkout stays quiet</summary>
+<summary>Why checkout does not stop</summary>
 
-`actions/checkout` tests for git in PATH. If git is missing, it does not fail. It does not warn. It swaps strategies without a word. The REST API tarball method is faster and needs no git. It also breaks on `submodules: recursive`. Which is what happened.
+`actions/checkout` tests for git in PATH. If git is missing, it does not fail. It does not warn. It logs one informational line about the REST API and swaps strategies. The REST API tarball method is faster and needs no git. It also breaks on `submodules: recursive`. Which is what happened.
 
 The behavior is documented. But who reads the checkout docs before it breaks?
 
@@ -81,7 +81,7 @@ While all this was happening, the reviewer bot kept filing comments. Some were u
 
 **"`ubuntu-26.04` does not exist. Roll back to 24.04."** The CI on `ubuntu-26.04` was green. `gh api .../actions/runners` confirmed zero self-hosted runners. `ubuntu-26.04` is a real GitHub Actions labelset. The docs are behind. The same bot said nothing about `macos-26` or `windows-2025`.
 
-**"`cancel-in-progress: false`. A new push will cancel an active deploy."** Technically true. But branch builds should die when the branch moves on, and the GitHub Pages deploy is serialized by a separate job-level group. With `false`, stale branch builds would queue up.
+**"Set `cancel-in-progress: false`, or a new push will cancel an active deploy."** Half right. `true` cancels the run already in flight in the same concurrency group; `false` cancels nothing and lets runs queue instead. But branch builds should die when the branch moves on, and the GitHub Pages deploy is already serialized by its own job-level group with `cancel-in-progress: false`. Flipping the workflow-level flag would only pile up stale branch builds.
 
 **"Remove `-DBENCHMARKS_OUTPUT_FILE`. Nothing reads it."** Also true. Not a single `CMakeLists.txt` in the repository consumes that variable. But this is not a bug. It is a placeholder. The CI has four of them: `run_benchmarks`, `bencher_testbed`, `run_test`, `BENCHMARKS_OUTPUT_FILE`. Removing one makes the file less consistent. They are all waiting for the first benchmark.
 
@@ -105,7 +105,7 @@ graph LR
 
 Every discovery of the past few days was a broken contract, not an isolated bug. Git in the image: the image's contract with checkout. Ninja and cmake: the image's contract with configure. `permissions: pull-requests: write` in `build_cmake.yaml`: a contract nobody planned to honor. `secrets: inherit` in `push.yaml`: a contract handing out every repository secret for no reason at all.
 
-The nasty part is how these failures show up. None of them breaks CI loudly. Checkout silently switches to the REST API. CMake prints "Manually-specified variables were not used by the project" and moves on. Unused permissions do not cause errors. Quiet bugs. Waiting for the right moment.
+The nasty part is how these failures show up. None of them breaks CI loudly. Checkout switches to the REST API and reports it as a detail. CMake prints "Manually-specified variables were not used by the project" and moves on. Unused permissions do not cause errors. Quiet bugs. Waiting for the right moment.
 
 Miss Marple notices when something is off in the village, even when everyone is smiling and having tea. Turns out the same approach works for CI.
 
@@ -118,7 +118,7 @@ By the end of the sprint, `build_cmake.yaml` had gone from a stub to a working p
 - **Windows** (x64 and x86). MSVC through `vswhere`.
 - **Sega Mega Drive**. Inside the `toygine2.md.toolchain` container.
 
-A `push.yaml` workflow now builds on every push to main. Unlike `pull_request.yaml`, it needs no PR comment permissions, just `contents: read` and `packages: read`. But `secrets: inherit` stays. The matrix already has `run_benchmarks` and `bencher_testbed`, and the Bencher token is almost certainly arriving that way. For now it is a corridor to nowhere, but a corridor with a sign that says "opening soon." A `.hadolint.yaml` keeps the Dockerfile linter clean. The GBA image got a smoke test: `mgba-headless --version placeholder.gba`. The binary is checked in the same layer that built it.
+A `push.yaml` workflow now builds on every push to main. Unlike `pull_request.yaml`, it needs no PR comment permissions, just `contents: read` and `packages: read`. But `secrets: inherit` stays. The matrix already has `run_benchmarks` and `bencher_testbed`, and the Bencher token is almost certainly arriving that way. For now it is a corridor to nowhere, but a corridor with a sign that says "opening soon." A `.hadolint.yaml` keeps the Dockerfile linter clean. The GBA image got a smoke test: `mgba-headless --version placeholder.gba`. The binary is verified in the same layer that built it.
 
 ![A detective's desk by a window. An open notebook with a hand-drawn table of four green checkmarks — Linux, macOS, Windows, Sega MD. A magnifying glass rests on a printed YAML config file. A cup of tea with steam. Bookshelf and lace curtains in the background.](/img/blog/1785748277.webp)
 
@@ -150,7 +150,7 @@ The real before/after table arrives when Bencher.dev goes live with the first be
 
 ## A Question for the Community
 
-There is one thing that bothers me. When CI fails silently, the way checkout without git fails by switching strategies instead of crashing, that I can understand. Scary, but reproducible.
+There is one thing that bothers me. When CI fails silently, the way checkout without git switches strategies instead of crashing, that I can understand. Scary, but reproducible.
 
 The flip side worries me more. `secrets: inherit` in a workflow that uses no secrets. `permissions` nobody asked for. `-DBENCHMARKS_OUTPUT_FILE` that nothing reads. It is dead code at the infrastructure level.
 
