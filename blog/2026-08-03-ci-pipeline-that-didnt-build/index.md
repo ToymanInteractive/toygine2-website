@@ -11,7 +11,7 @@ date: 2026-08-03
 
 Last time I explained why I am writing a game engine from scratch in 2026. Two weeks have passed. The code is not any better. But now I have CI. At least I thought I did.
 
-{/* truncate */}
+{/*truncate*/}
 
 ## TL;DR
 
@@ -120,10 +120,7 @@ By the end of the sprint, `build_cmake.yaml` had gone from a stub to a working p
 
 A `push.yaml` workflow now builds on every push to main. Unlike `pull_request.yaml`, it needs no PR comment permissions, just `contents: read` and `packages: read`. But `secrets: inherit` stays. The matrix already has `run_benchmarks` and `bencher_testbed`, and the Bencher token is almost certainly arriving that way. For now it is a corridor to nowhere, but a corridor with a sign that says "opening soon." A `.hadolint.yaml` keeps the Dockerfile linter clean. The GBA image got a smoke test: `mgba-headless --version placeholder.gba`. The binary is checked in the same layer that built it.
 
-{/*
-IMAGE PLACEHOLDER 01: screenshot of a green CI run with the 4-platform build matrix in GitHub Actions
-FOR AI: clean GitHub Actions UI screenshot showing a green build matrix across 4 platforms, dark theme, editorial tech blog style
-*/}
+![A detective's desk by a window. An open notebook with a hand-drawn table of four green checkmarks — Linux, macOS, Windows, Sega MD. A magnifying glass rests on a printed YAML config file. A cup of tea with steam. Bookshelf and lace curtains in the background.](./1785748277.webp)
 
 ## What Went Wrong
 
@@ -131,19 +128,16 @@ FOR AI: clean GitHub Actions UI screenshot showing a green build matrix across 4
 - **Five devkitPro images have no smoke tests.** They consist of `FROM` plus `LABEL`. The upstream toolchain goes unchecked.
 - **The `build_cmake.yaml` body still has no test steps.** Four matrix placeholders are waiting for the first benchmark.
 
-{/*
-IMAGE PLACEHOLDER 02: terminal screenshot of a CI job log showing checkout, CMake configure, and Ninja build steps with timings
-FOR AI: terminal screenshot of a successful CI job log showing checkout, CMake configure, and Ninja build steps with timing, dark background, clean monospace font
-*/}
+![A miniature English village with four small houses connected by metal pipes. A penguin weathervane, an apple tree, a pane-glass window, and a Sega Genesis-shaped house. An elderly detective in tweed examines a leaking pipe joint with a notepad. Hedgerows and tea roses in warm afternoon light.](./1785748363.webp)
 
 ## Benchmarks (None Yet)
 
-| What | Before | After |
-|------|--------|-------|
-| Platforms in CI | 0 (local only) | 4 (Linux, macOS, Windows, MD) |
-| Build steps | 1 (checkout) | 4 (checkout, prep, configure, build) |
-| Docker images with a linter | 0 | 7 |
-| Smoke tests in images | 0 | 1 (GBA) |
+| What                        | Before         | After                                |
+| --------------------------- | -------------- | ------------------------------------ |
+| Platforms in CI             | 0 (local only) | 4 (Linux, macOS, Windows, MD)        |
+| Build steps                 | 1 (checkout)   | 4 (checkout, prep, configure, build) |
+| Docker images with a linter | 0              | 7                                    |
+| Smoke tests in images       | 0              | 1 (GBA)                              |
 
 The real before/after table arrives when Bencher.dev goes live with the first benchmark. For now I am picking off the easy ones: configure and build times on each platform.
 
