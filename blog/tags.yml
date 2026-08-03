@@ -1,6 +1,42 @@
+platforms:
+  label: Platforms
+  description: Multi-platform development
+md:
+  label: Sega MD
+  description: Sega Mega Drive / Genesis development
+n64:
+  label: N64
+  description: Development for Nintendo 64
+gamecube:
+  label: GameCube
+  description: Development for Nintendo GameCube
+wii:
+  label: Wii
+  description: Development for Nintendo Wii
 gba:
   label: GBA
   description: Development for Game Boy Advance
+nds:
+  label: NDS
+  description: Development for Nintendo DS
+3ds:
+  label: 3DS
+  description: Development for Nintendo 3DS
+switch:
+  label: Switch
+  description: Development for Nintendo Switch
+steamdeck:
+  label: Steam Deck
+  description: Development for Steam Deck
+windows:
+  label: Windows
+  description: Windows desktop builds
+macos:
+  label: macOS
+  description: macOS desktop builds
+linux:
+  label: Linux
+  description: Linux desktop builds
 retro:
   label: Retro
   description: Retro computing and gaming
@@ -16,3 +52,12 @@ personal:
 cpp:
   label: C++
   description: C++ programming language
+ci:
+  label: CI/CD
+  description: Continuous integration and delivery
+docker:
+  label: Docker
+  description: Docker images and containers
+cmake:
+  label: CMake
+  description: CMake build system
