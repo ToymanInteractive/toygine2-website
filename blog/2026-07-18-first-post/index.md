@@ -10,7 +10,7 @@ Here is a fact: I am a mobile developer with a wife, three sons, and a perfectly
 
 The plan is simple. Write the engine. Ship games on it. Write about the whole thing as I go. If you are here for hot takes on Unity vs. Unreal or a tutorial on how to make a game in a weekend, you are in the wrong place. If you want to watch somebody crawl through the guts of a software renderer at 1 AM and genuinely enjoy it, stick around.
 
-{/* truncate */}
+<!-- truncate -->
 
 ## The Kilobytes That Started Everything
 
