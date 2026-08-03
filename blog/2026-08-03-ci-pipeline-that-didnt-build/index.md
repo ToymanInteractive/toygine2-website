@@ -11,7 +11,7 @@ date: 2026-08-03
 
 Last time I explained why I am writing a game engine from scratch in 2026. Two weeks have passed. The code is not any better. But now I have CI. At least I thought I did.
 
-{/*truncate*/}
+<!-- truncate -->
 
 ## TL;DR
 
