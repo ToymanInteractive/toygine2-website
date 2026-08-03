@@ -120,7 +120,7 @@ By the end of the sprint, `build_cmake.yaml` had gone from a stub to a working p
 
 A `push.yaml` workflow now builds on every push to main. Unlike `pull_request.yaml`, it needs no PR comment permissions, just `contents: read` and `packages: read`. But `secrets: inherit` stays. The matrix already has `run_benchmarks` and `bencher_testbed`, and the Bencher token is almost certainly arriving that way. For now it is a corridor to nowhere, but a corridor with a sign that says "opening soon." A `.hadolint.yaml` keeps the Dockerfile linter clean. The GBA image got a smoke test: `mgba-headless --version placeholder.gba`. The binary is checked in the same layer that built it.
 
-![A detective's desk by a window. An open notebook with a hand-drawn table of four green checkmarks — Linux, macOS, Windows, Sega MD. A magnifying glass rests on a printed YAML config file. A cup of tea with steam. Bookshelf and lace curtains in the background.](./1785748277.webp)
+![A detective's desk by a window. An open notebook with a hand-drawn table of four green checkmarks — Linux, macOS, Windows, Sega MD. A magnifying glass rests on a printed YAML config file. A cup of tea with steam. Bookshelf and lace curtains in the background.](/img/blog/1785748277.webp)
 
 ## What Went Wrong
 
@@ -128,7 +128,7 @@ A `push.yaml` workflow now builds on every push to main. Unlike `pull_request.ya
 - **Five devkitPro images have no smoke tests.** They consist of `FROM` plus `LABEL`. The upstream toolchain goes unchecked.
 - **The `build_cmake.yaml` body still has no test steps.** Four matrix placeholders are waiting for the first benchmark.
 
-![A miniature English village with four small houses connected by metal pipes. A penguin weathervane, an apple tree, a pane-glass window, and a Sega Genesis-shaped house. An elderly detective in tweed examines a leaking pipe joint with a notepad. Hedgerows and tea roses in warm afternoon light.](./1785748363.webp)
+![A miniature English village with four small houses connected by metal pipes. A penguin weathervane, an apple tree, a pane-glass window, and a Sega Genesis-shaped house. An elderly detective in tweed examines a leaking pipe joint with a notepad. Hedgerows and tea roses in warm afternoon light.](/img/blog/1785748363.webp)
 
 ## Benchmarks (None Yet)
 
