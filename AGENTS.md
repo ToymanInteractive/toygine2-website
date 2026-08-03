@@ -105,3 +105,17 @@ Chain: CI builds the engine's `docs` target → `engine/docs/xml/` → `doxygen2
   * Past a screenful of JSX, extract a subcomponent; shared markup moves to `src/components/<Name>/`.
 * **Testing:** No unit-test runner — `npm run typecheck` and `npm run build` are the gate, so keep code they can catch: typed exports, no implicit `any` (`strict` is on in `tsconfig.json`). Generator logic goes in pure functions over input paths, with `fs`, `path` and `process` at the edges, so a fixture directory can be pointed at them.
 * **Logging:** In `scripts/`, one `console.log` summary line of what was written (see `generate-platform-tags.mjs`), `console.error` before a non-zero exit. Nothing in `src/` logs — it ships to the browser and runs during SSR.
+
+## TypeScript Best Practices
+
+* **References:** The TypeScript handbook (<https://www.typescriptlang.org/docs/handbook/>) and the Docusaurus docs (<https://docusaurus.io/docs>) for the installed major version.
+* **Organization:** One concern per module, named exports only — a default hides the name at every call site. The folder is the unit you move or delete: `src/components/<Name>/` for markup, `scripts/` for generators, `src/data/` for their output; types live beside what they describe.
+* **API documentation:** TSDoc on exports and script entry points — what it returns and assumes, not a restatement of the signature.
+* **Comments:** Explain the non-obvious (an Infima override, an SSR guard, a doxygen2docusaurus quirk). No over-commenting, no trailing comments.
+* **Strict null handling:** Model absence with `undefined` and narrow before use. Avoid `!` and `as` — they silence `tsc`, which is half the test suite here.
+* **Async/await:** Over promise chains, and only in `scripts/`; `src/` renders synchronously under SSR. `await` everything, `Promise.all` for independent work — a floating promise exits zero with a half-written file.
+* **Discriminated unions:** A literal tag beats optional fields; narrow on it so `tsc` proves each case is handled.
+* **Switch statements:** Exhaustive, with `never` in `default` — a new variant then fails type checking instead of falling through.
+* **Tuples and objects:** A named object for several return values; tuples only for two with obvious meaning.
+* **Error handling:** `throw` an `Error` naming the offending path; catch only to add context, then rethrow. Never swallow — see Code Quality above.
+* **Arrow functions:** For callbacks and one-liners; `function` for exports and components, so they hoist and stack traces stay readable.
