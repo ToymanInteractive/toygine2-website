@@ -1,14 +1,10 @@
 ---
 slug: day-1-laws-over-water
 title: "Day 1: Laws Over the Water"
-authors: [dkrutskikh]
+authors: [dmitry]
 tags: [cpp, ci, cmake, docker, platforms, retro, gba, md, n64, personal]
 date: 2026-07-22
-description: >
-  The first day of the Builder's chronicle. The settlement's laws,
-  originally written in a foreign tongue, have been rewritten
-  in the language of this land. The archipelago map now spans
-  three dimensions. The ships in the harbor have been given names.
+description: "The first day of the Builder's chronicle. The settlement's laws, originally written in a foreign tongue, have been rewritten in the language of this land. The archipelago map now spans three dimensions. The ships in the harbor have been given names."
 sidebar_position: 1
 vibe: storm-weathered
 image: ./images/placeholder-01.png
@@ -218,14 +214,14 @@ tag object, not the commit.
 
 ## Health of the reef
 
-| Metric | Before | After |
-|---|---|---|
-| CMake presets | 3 (single axis) | 36 (three axes) |
-| Platforms in CI matrix | 0 (docs only) | 15 |
-| Docker images | 7 (one broken) | 7 (all working) |
-| Rules in the code of laws | ~40 (Dart) | ~150 (C++23/game engine) |
-| Lines in the code | ~900 | ~650 (after dedup) |
-| Doxygen: CI gate | none | fail on first warning |
+| Metric                    | Before          | After                    |
+| ------------------------- | --------------- | ------------------------ |
+| CMake presets             | 3 (single axis) | 36 (three axes)          |
+| Platforms in CI matrix    | 0 (docs only)   | 15                       |
+| Docker images             | 7 (one broken)  | 7 (all working)          |
+| Rules in the code of laws | ~40 (Dart)      | ~150 (C++23/game engine) |
+| Lines in the code         | ~900            | ~650 (after dedup)       |
+| Doxygen: CI gate          | none            | fail on first warning    |
 
 ## Chronicles
 
