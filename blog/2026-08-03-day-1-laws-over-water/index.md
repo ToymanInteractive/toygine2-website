@@ -27,8 +27,8 @@ This tide cycle, the Builder rewrote the settlement's laws from
 a foreign tongue into the language of this land, charted the
 archipelago in three dimensions, and lit a lighthouse now visible
 from every island. Along the way, three ships received names and
-stopped sinking in the harbor. The artifact of the twenty-sixth
-cycle has been left in the vault.
+stopped sinking in the harbor. The artifact of this cycle
+has been left in the vault.
 
 **Today's plan:**
 
@@ -232,7 +232,7 @@ of the archipelago is drawn.
 
 The code of laws is unfinished. Section by section, rules are still
 migrating, folding together, being audited. Broken links trail from the
-twenty-eighth day. `CMakeLists.txt` carries a `TOYGINE_BUILD_BENCHMARKS`
+earliest days. `CMakeLists.txt` carries a `TOYGINE_BUILD_BENCHMARKS`
 option while the `benchmarks/` directory does not exist. Seven images
 await versioned tags instead of `:latest`.
 
