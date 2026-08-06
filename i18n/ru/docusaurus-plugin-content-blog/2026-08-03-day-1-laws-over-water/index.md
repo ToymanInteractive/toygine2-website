@@ -10,6 +10,7 @@ description: >
   три измерения. Корабли в гавани получили имена.
 sidebar_position: 1
 vibe: storm-weathered
+image: ./images/placeholder-01.png
 ---
 
 ToyGine2 — игровой движок для ретроконсолей. Поселение стоит
@@ -36,17 +37,18 @@ ToyGine2 — игровой движок для ретроконсолей. По
 ![Навигационная карта архипелага — три оси пресетов](./images/placeholder-01.png)
 {/*
 ДЛЯ ЧЕЛОВЕКА: что снять — карта архипелага как метафора матрицы CMake-пресетов
-ДЛЯ AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, marginal notes in elegant script, parchment texture, editorial blog header, 16:9
+ДЛЯ AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, scattered marginal notes in elegant Russian cursive handwriting — these are the Builder's abbreviated code of laws: phrases like «слой течёт в одну сторону», «контракт дороже удобства», «аллокации видны на границе», «noexcept только по делу», parchment texture, editorial blog header, 16:9
 */}
 
 ## Закон над водой
 
-Старые законы были написаны для другой земли. Они говорили
-о виджетах и пабах — словах, которых в этом поселении никто
-не слышал. Правила стиля предписывали Flutter, правила
-архитектуры — слои Presentation и Domain. Правила тестирования —
-`flutter test`. Поселение живёт по другим законам, но свиток
-об этом молчал.
+Старые законы были написаны для другой земли. Они ссылались
+на технологию, которую в этом архипелаге никто не видел
+вживую — малопригодную для игр, незнакомую с железом,
+говорящую на чужом наречии. Правила стиля предписывали приёмы,
+бессмысленные за пределами той земли. Правила тестирования —
+ритуалы, которые здесь нечем исполнить. Поселение живёт
+по другим законам, но свиток об этом молчал.
 
 Строитель взялся за переписывание.
 

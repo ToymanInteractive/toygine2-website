@@ -11,6 +11,7 @@ description: >
   three dimensions. The ships in the harbor have been given names.
 sidebar_position: 1
 vibe: storm-weathered
+image: ./images/placeholder-01.png
 ---
 
 ToyGine2 is a game engine for retro consoles. The settlement stands
@@ -38,16 +39,18 @@ cycle has been left in the vault.
 ![Navigational chart of the archipelago — three preset axes](./images/placeholder-01.png)
 {/*
 ДЛЯ ЧЕЛОВЕКА: что снять — карта архипелага как метафора матрицы CMake-пресетов
-FOR AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, marginal notes in elegant script, parchment texture, editorial blog header, 16:9
+FOR AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, scattered marginal notes in elegant English cursive handwriting — these are the Builder's abbreviated code of laws: phrases like "layers flow one way", "the contract over convenience", "allocations visible at the boundary", "noexcept only where it holds", parchment texture, editorial blog header, 16:9
 */}
 
 ## The law over the water
 
-The old laws were written for a different land. They spoke of widgets
-and pubspecs, words nobody in this settlement had ever heard. The style
-guide prescribed Flutter. The architecture rules spoke of Presentation
-and Domain layers. The testing rules said `flutter test`. The settlement
-lives by different laws, but the scroll was silent about them.
+The old laws were written for a different land. They referenced
+a technology nobody in this archipelago had ever seen up close:
+poorly suited for games, unfamiliar with bare metal, speaking
+a foreign dialect. The style guide prescribed practices that made
+no sense beyond that land. The testing rules described rituals
+with no tools to perform them here. The settlement lives by
+different laws, but the scroll was silent about them.
 
 The Builder set about rewriting.
 
