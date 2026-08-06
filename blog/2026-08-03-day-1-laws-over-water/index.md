@@ -11,7 +11,7 @@ description: >
   three dimensions. The ships in the harbor have been given names.
 sidebar_position: 1
 vibe: storm-weathered
-image: ./images/placeholder-01.png
+image: ./images/1786003775f159.webp
 ---
 
 ToyGine2 is a game engine for retro consoles. The settlement stands
@@ -36,11 +36,7 @@ cycle has been left in the vault.
 - Chart the build map for every platform
 - Fix the failing harbor
 
-![Navigational chart of the archipelago — three preset axes](./images/placeholder-01.png)
-{/*
-ДЛЯ ЧЕЛОВЕКА: что снять — карта архипелага как метафора матрицы CMake-пресетов
-FOR AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, scattered marginal notes in elegant English cursive handwriting — these are the Builder's abbreviated code of laws: phrases like "layers flow one way", "the contract over convenience", "allocations visible at the boundary", "noexcept only where it holds", parchment texture, editorial blog header, 16:9
-*/}
+![Navigational chart of the archipelago — three preset axes](./images/1786003775f159.webp)
 
 ## The law over the water
 
@@ -128,11 +124,7 @@ Seven Docker images, one for each console platform. The Sega Mega Drive
 image was the only one built on `debian:bookworm-slim`, and the first
 to fall.
 
-![Seven ships in the harbor beneath the lighthouse](./images/placeholder-02.png)
-{/*
-ДЛЯ ЧЕЛОВЕКА: что снять — Docker-образы как корабли в порту, маяк как CI
-FOR AI: Harbor scene at twilight, Polynesian double-hulled ships with distinct insignia representing console platforms, Moana-inspired turquoise water with coral reef below, terracotta sails and gold trim, Ghibli hand-drawn watercolor texture, seven ships docked — six intact, one listing slightly with a visible crack in its hull being repaired by a tiny figure, a massive gentle whale surfacing near the harbor entrance (subtle Docker mascot homage), a lighthouse on the rocky shore casting a beam of golden light across the water, parchment-like sky with ink-wash clouds, editorial blog header, 16:9
-*/}
+![Seven ships in the harbor beneath the lighthouse](/img/blog/17860061414055.webp)
 
 The first fall: `EACCES`. The GitHub Actions runner bind-mounts its
 working directory from the `runner` user (uid 1001), but the image
@@ -231,7 +223,7 @@ tag object, not the commit.
 
 ## Chronicles
 
-The artifact of the twenty-sixth cycle,
+The artifact of the cycle,
 [release 26.16.0](https://github.com/ToymanInteractive/toygine2/releases/tag/26.16.0),
 has been left in the vault. The ships in the harbor are named, the map
 of the archipelago is drawn.

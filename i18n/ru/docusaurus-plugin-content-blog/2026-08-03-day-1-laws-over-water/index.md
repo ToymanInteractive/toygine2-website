@@ -10,7 +10,7 @@ description: >
   три измерения. Корабли в гавани получили имена.
 sidebar_position: 1
 vibe: storm-weathered
-image: ./images/placeholder-01.png
+image: ./images/1786003775f159.webp
 ---
 
 ToyGine2 — игровой движок для ретроконсолей. Поселение стоит
@@ -34,11 +34,7 @@ ToyGine2 — игровой движок для ретроконсолей. По
 - Настроить карту сборок для всех платформ
 - Починить падающую гавань
 
-![Навигационная карта архипелага — три оси пресетов](./images/placeholder-01.png)
-{/*
-ДЛЯ ЧЕЛОВЕКА: что снять — карта архипелага как метафора матрицы CMake-пресетов
-ДЛЯ AI: Ancient navigational map on aged parchment, Polynesian wave motifs along borders, Moana-inspired palette of deep indigo ocean and terracotta islands with gold compass rose, Ghibli hand-drawn linework, Zelda dungeon-map clarity, three island chains labeled type/platform/features connected by dashed trade routes, a small compass rose pointing south instead of north with a correction mark scratched beside it, scattered marginal notes in elegant Russian cursive handwriting — these are the Builder's abbreviated code of laws: phrases like «слой течёт в одну сторону», «контракт дороже удобства», «аллокации видны на границе», «noexcept только по делу», parchment texture, editorial blog header, 16:9
-*/}
+![Навигационная карта архипелага — три оси пресетов](./images/1786003775f159.webp)
 
 ## Закон над водой
 
@@ -127,11 +123,7 @@ shipping), `platform-*` (тринадцать таргетов от Windows x64
 Образ Sega Mega Drive был единственным, собранным на `debian:bookworm-slim`,
 и первым, кто упал.
 
-![Семь кораблей в гавани у маяка](./images/placeholder-02.png)
-{/*
-ДЛЯ ЧЕЛОВЕКА: что снять — Docker-образы как корабли в порту, маяк как CI
-ДЛЯ AI: Harbor scene at twilight, Polynesian double-hulled ships with distinct insignia representing console platforms, Moana-inspired turquoise water with coral reef below, terracotta sails and gold trim, Ghibli hand-drawn watercolor texture, seven ships docked — six intact, one listing slightly with a visible crack in its hull being repaired by a tiny figure, a massive gentle whale surfacing near the harbor entrance (subtle Docker mascot homage), a lighthouse on the rocky shore casting a beam of golden light across the water, parchment-like sky with ink-wash clouds, editorial blog header, 16:9
-*/}
+![Семь кораблей в гавани у маяка](/img/blog/17860061414055.webp)
 
 Первое падение: `EACCES`. GitHub Actions раннер бинд-маунтит
 рабочую директорию от пользователя `runner` (uid 1001), а образ
@@ -227,7 +219,7 @@ Windows, macOS, Linux, семь консолей в контейнерах — �
 
 ## Хроники
 
-Артефакт двадцать шестого цикла —
+Артефакт цикла —
 [релиз 26.16.0](https://github.com/ToymanInteractive/toygine2/releases/tag/26.16.0) —
 оставлен в хранилище. Корабли в гавани поименованы, карта
 архипелага расчерчена.
