@@ -7,6 +7,7 @@ md:
 n64:
   label: N64
   description: Development for Nintendo 64
+  permalink: /n64
 gamecube:
   label: GameCube
   description: Development for Nintendo GameCube
@@ -22,6 +23,7 @@ nds:
 3ds:
   label: 3DS
   description: Development for Nintendo 3DS
+  permalink: /3ds
 switch:
   label: Switch
   description: Development for Nintendo Switch
