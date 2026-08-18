@@ -32,7 +32,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y graphviz
-          curl --fail -L https://github.com/doxygen/doxygen/releases/download/Release_1_17_0/doxygen-1.17.0.linux.bin.tar.gz -o doxygen.tar.gz || { echo "Failed to download Doxygen"; exit 1; }
+          curl --fail -L https://github.com/doxygen/doxygen/releases/download/Release_1_18_0/doxygen-1.18.0.linux.bin.tar.gz -o doxygen.tar.gz || { echo "Failed to download Doxygen"; exit 1; }
           tar -xzf doxygen.tar.gz || { echo "Failed to extract Doxygen"; exit 1; }
           cd doxygen-*
           sudo cp bin/doxygen /usr/local/bin/ || { echo "Failed to install Doxygen"; exit 1; }
