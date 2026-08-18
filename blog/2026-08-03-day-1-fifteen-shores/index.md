@@ -8,6 +8,7 @@ description: >
   The first day of the Builder's chronicle. The archipelago map gained
   three axes, a watchman was set over the scrolls, and foreign ships
   finally entered the harbor: seven toolchains in containers.
+image: /img/blog/2026-08-03-1.webp
 sidebar_position: 1
 vibe: peacemaker
 ---
@@ -27,10 +28,7 @@ This tide cycle I charted the archipelago along three axes, set a watchman over 
 - Bring the Docker images to a state where CI actually runs on them
 - Assemble the skeleton of a matrix build across every target platform
 
-<!--
-FOR A HUMAN: header image, an archipelago chart with the three preset axes, or a screenshot of the preset listing command output running to 36 lines
-FOR AI: navigational chart illustration, three intersecting axes drawn as sea routes between fifteen islands, Polynesian wave motifs along borders, Moana-inspired turquoise and terracotta palette, Ghibli hand-drawn linework, Zelda adventure-map clarity, parchment texture, editorial blog header
--->
+![Parchment sea chart pinned by a stone and a shell: islands linked by three kinds of route line, one pale island fading into open water](/img/blog/2026-08-03-1.webp)
 
 ## A map along three axes
 
@@ -78,6 +76,8 @@ The rest of this theme is smaller masonry. `Doxyfile` is now generated into the 
 
 From the outside all of this looks like a documentation site that simply exists. A silent charm and a working charm look identical from there, right up to the day a spirit walks past.
 
+![A carved guardian post pours sparks toward a stilt-built scroll house at sunset, a messenger below holding a sealed parcel that leaks sand](/img/blog/2026-08-03-2.webp)
+
 ## The harbor and the foreign ships
 
 Seven console toolchains live in containers here, and six of them are built on the devkitPro image, by other hands and long ago. The seventh, for the Mega Drive, I assembled myself on a bare `debian:bookworm-slim`. It was also the only one with a user of its own inside, and that is where this began.
@@ -96,10 +96,7 @@ The Game Boy Advance image, meanwhile, was missing a charm. The build stage comp
 
 A settler sees a green check mark. They know nothing of user ids, nor that the `git` inside the image is not the `git` they use at home. What makes a harbor is whether a foreign ship can enter it without asking you anything first.
 
-<!--
-FOR A HUMAN: diagram or screenshot of the build matrix, 15 configurations, seven of them in containers
-FOR AI: illustration of a harbor with fifteen berths, seven foreign ships docked under woven canopies, Polynesian wave motifs, Moana-inspired turquoise and terracotta palette, Ghibli hand-drawn linework, Zelda adventure-map clarity, parchment texture
--->
+![A timber pier at sunset, ships moored under woven canopies, one ship still at anchor offshore with a rope thrown toward it](/img/blog/2026-08-03-3.webp)
 
 ## The rest of the cycle
 
@@ -139,16 +136,16 @@ The build matrix contained a `-DBENCHMARKS_OUTPUT_FILE` argument that no `CMakeL
 
 ## Reef health
 
-| What I measured | Before | After |
-| --- | --- | --- |
-| `cmake --list-presets` | fails on file version | 36 configure + 36 build |
-| `TOYGINE_BUILD_*` in `macos-release` | `OFF` despite `with-tests` | `ON` |
-| Generator in `macos-xcode` | Ninja | Xcode, project is created |
-| `cmake --preset n64-debug` on the host | succeeds on `/usr/bin/c++` | exits with 1 |
-| A broken `\param` in Doxygen | exit 0, empty console | fails with the full list |
-| Configurations in the build matrix | 0 | 15 |
-| mGBA smoke test in the GBA image | none | 0.1 seconds |
-| External CDN references in the docs | on every page | 0 |
+| What I measured                        | Before                     | After                     |
+| -------------------------------------- | -------------------------- | ------------------------- |
+| `cmake --list-presets`                 | fails on file version      | 36 configure + 36 build   |
+| `TOYGINE_BUILD_*` in `macos-release`   | `OFF` despite `with-tests` | `ON`                      |
+| Generator in `macos-xcode`             | Ninja                      | Xcode, project is created |
+| `cmake --preset n64-debug` on the host | succeeds on `/usr/bin/c++` | exits with 1              |
+| A broken `\param` in Doxygen           | exit 0, empty console      | fails with the full list  |
+| Configurations in the build matrix     | 0                          | 15                        |
+| mGBA smoke test in the GBA image       | none                       | 0.1 seconds               |
+| External CDN references in the docs    | on every page              | 0                         |
 
 ## The kohau
 
