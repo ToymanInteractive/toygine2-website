@@ -34,7 +34,7 @@ This tide cycle I charted the archipelago along three axes, set a watchman over 
 
 Before this, there was no map at all. To build the settlement for another land I kept the order of the words in my head and recalled it fresh each time. My recollection, to be honest, was not always right.
 
-I laid the roads out along three axes. The first says what the house is like inside: `type-debug`, `type-relwithdebinfo`, `type-release`. The second says which land it stands on: thirteen `platform-*` entries, from Windows on two architectures to the Mega Drive, the Nintendo 64 and the Wii. The third says what it holds beyond walls: `with-tests`, `with-benchmarks`, `with-samples`, `with-editor`. Thirty-six concrete presets stand where the axes cross.
+I laid the roads out along three axes. The first says what the house is like inside: `type-debug`, `type-release`, `type-shipping`. The second says which land it stands on: thirteen `platform-*` entries, from Windows on two architectures to the Mega Drive, the Nintendo 64 and the Wii. The third says what it holds beyond walls: `with-tests`, `with-benchmarks`, `with-samples`, `with-editor`. Thirty-six concrete presets stand where the axes cross.
 
 The map refused to work. `cmake --list-presets` printed nothing and failed outright: the file version, it said, had to be three or higher. Eight presets already carried a `toolchainFile` while the header still said one. I had drawn roads the format itself knew nothing about.
 
@@ -54,7 +54,7 @@ A settler sees none of this. They type `cmake --preset macos-release`, one line.
 
 ```mermaid
 graph LR
-  B[base] --> T[type-*<br/>debug · relwithdebinfo · release]
+  B[base] --> T[type-*<br/>debug · release · shipping]
   B --> P[platform-*<br/>13 lands]
   B --> W[with-*<br/>tests · benchmarks · samples · editor]
   T --> C[36 concrete presets]
@@ -102,7 +102,7 @@ A settler sees a green check mark. They know nothing of user ids, nor that the `
 
 CI permissions needed separate attention. The top level of the calling workflow sets the ceiling: anything unlisted there is implicitly nothing. A permissions block inside a reusable workflow only declares a requirement and cannot grant above that ceiling.
 
-The skeleton of a matrix build came together across fifteen configurations, fifteen shores on thirteen lands, because some lands take two ships each: Windows on two architectures, macOS through Xcode and Ninja, Linux on x64 and arm64, plus seven console targets in containers. A runner preparation step appeared: `vswhere` and the path to `dumpbin` on Windows, a cascade of Xcode versions on macOS, `gcc-16` through `update-alternatives` on Ubuntu. APT packages are cached so they are not pulled every run. The date in an image tag is now computed once. It used to be computed twice, and a build starting just before UTC midnight could get yesterday's tag with today's version label.
+The skeleton of a matrix build came together across fifteen configurations, fifteen shores on thirteen lands, because some lands take two ships each: Windows on two architectures, macOS through Xcode and Ninja on both arm64 and Intel, Linux on x64 and arm64, plus seven console targets in containers. A runner preparation step appeared: `vswhere` and the path to `dumpbin` on Windows, a cascade of Xcode versions on macOS, `gcc-16` through `update-alternatives` on Ubuntu. APT packages are cached so they are not pulled every run. The date in an image tag is now computed once. It used to be computed twice, and a build starting just before UTC midnight could get yesterday's tag with today's version label.
 
 ## Dead-end trails
 
