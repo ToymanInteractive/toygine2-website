@@ -94,13 +94,13 @@ So: I am writing ToyGine2. A game engine. In C++. On purpose.
 
 The obvious question comes first. Why, when Unity, Godot and Unreal are right there? I do not want an engine, I want to write one. Working with somebody else's engine means working inside somebody else's decisions. Write your own and the decisions are yours, and so is the bill. I want to understand every one of them: why this allocator, why this entity model, why there will be no virtual call here.
 
-There is a second answer, less romantic. ToyGine2 aims at hardware the big engines simply do not run on: Game Boy Advance, Mega Drive, Nintendo 64, GameCube, Wii, PSP, with the ordinary desktop next to them. It is not that Unity is bad. It is built on different assumptions, dynamic memory and a rich runtime and garbage collection, none of which exists on a console with a hundred kilobytes of RAM, and none of which is going to.
+There is a second answer, less romantic. ToyGine2 aims at hardware the big engines simply do not run on: Game Boy Advance, Mega Drive, Nintendo 64, GameCube, Wii, Nintendo DS, with the ordinary desktop next to them. It is not that Unity is bad. It is built on different assumptions, dynamic memory and a rich runtime and garbage collection, none of which exists on a console with a hundred kilobytes of RAM, and none of which is going to.
 
 These machines are far more alive than they look from outside. They have current compilers and working toolchains, emulators that count cycles, and people who ship new games on them every year. A retro platform today is not a museum piece, it is an ordinary build target with a strict budget.
 
 Hence the constraints I wrote down for myself at the start. No allocations in hot paths, no `new`, no `malloc`, no `std::function`. No exceptions, `std::expected` and return codes instead. Data laid out the way the cache likes it rather than the way a class diagram looks good. Composition ahead of inheritance. And determinism: the game step must not depend on frame rate or render order, or the game can be neither saved nor replayed from a recording.
 
-It is the same conversation I was having on the Spectrum, except there are thirteen machines now. And it does not start from a blank page: ToyGine2 grows out of the engine Toyman built MOAI on, so some of the decisions have already been tested by games that shipped.
+It is the same conversation I was having on the Spectrum, except now it is not one machine but a shelf of them. And it does not start from a blank page: ToyGine2 grows out of the engine Toyman built MOAI on, so some of the decisions have already been tested by games that shipped.
 
 Whoever eventually picks the engine up will need none of this. They will type one line, something like `cmake --preset gba-release`, and get a ROM that runs. The rest is my problem, and that is the whole point of the exercise.
 
@@ -108,9 +108,9 @@ There is no commercial plan here. ToyGine2 is a hobby, but a hobby with a target
 
 ## Lands beyond the horizon
 
-The engine holds little so far: a logger and the foundation of the time module. The near plans are down to earth.
+The engine holds little so far: a logger and the foundation of the time module. The immediate plans are down to earth.
 
-Build a build system that understands thirteen platforms the same way, from the Mega Drive to macOS. Stand up CI that runs all of them, not only the one sitting on my desk. Learn to verify console builds on an emulator, and anything timing-sensitive on real hardware. A game comes only after that, because an engine with no game on it has nothing to be checked against.
+Build a build system that understands every target platform the same way, from the Mega Drive to macOS. Stand up CI that runs all of them, not only the one sitting on my desk. Learn to verify console builds on an emulator, and anything timing-sensitive on real hardware. A game comes only after that, because an engine with no game on it has nothing to be checked against.
 
 The next post is about exactly that: the map of platforms, the build system, and the bugs that moved into it.
 
@@ -118,6 +118,6 @@ The next post is about exactly that: the map of platforms, the build system, and
 
 One question has been open since the beginning, and I do not have the answer.
 
-Determinism across thirteen platforms. I want the game step computed identically everywhere, independent of frame rate and of whether the last frame finished drawing. On the desktop that is solved with a fixed step and an accumulator. On the Game Boy Advance the frame rate is nailed to the hardware, and the temptation to hang the logic straight off it is enormous, while on the Nintendo 64 the picture is tied just as firmly to a television standard, and the standards differ by region.
+Determinism across every target platform. I want the game step computed identically everywhere, independent of frame rate and of whether the last frame finished drawing. On the desktop a fixed step and an accumulator take the frame rate out of it, though that alone does not make two builds agree: the arithmetic and the update order have to match too. On the Game Boy Advance the frame rate is nailed to the hardware, and the temptation to hang the logic straight off it is enormous, while on the Nintendo 64 the picture is tied just as firmly to a television standard, and the standards differ by region.
 
 How do you keep one game step where the hardware keeps its own time? Do you cut the logic loose from the frame entirely and pay for it in accuracy or complexity, or do you admit that each platform has its own clock and just pin down how far apart they drift? I would genuinely like to hear from people who have already walked this road.
