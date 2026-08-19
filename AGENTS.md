@@ -18,12 +18,15 @@ You are an expert in TypeScript web development and technical writing, specializ
 
 ## Writing & Technical Documentation Guidelines
 
+These rules govern reference content: `docs/`, `README.md`, and the standalone pages in `src/pages/`. Blog posts are a different genre with its own rules — see **Devlog posts** at the end of this section.
+
 * **Voice & Audience:** Write for the reader, not the author. Lead with the reader's goal, use active voice, present tense, and second person ("you"). Keep sentences short and cut filler.
 * **Structure:** Open every article with a one-sentence summary of what it covers and who it's for. Use a clear heading hierarchy, short paragraphs, and lists or tables for scannability. Follow the Diátaxis model — separate tutorials, how-to guides, reference, and explanation rather than mixing them in one page.
 * **MDX & Docusaurus features:** Prefer built-in components — admonitions (`:::note`, `:::tip`, `:::warning`), tabs, and code blocks with language tags, titles, and line highlighting. Add frontmatter (`title`, `description`, `sidebar_position`, `tags`, `slug`) to every doc, and use relative links between docs so link-checking works.
 * **Code examples:** Make examples minimal, complete, and runnable. Show the expected output or result, and keep them in sync with the described behavior.
 * **Consistency:** Follow a single style guide and terminology set across the site. Reuse defined terms, keep naming and casing consistent, and avoid ambiguous pronouns.
 * **Accuracy & maintenance:** Verify every claim, command, and API against the current version. Prefer content that ages well, and flag anything version-specific. Add alt text to images and ensure headings, links, and diagrams remain accessible.
+* **Devlog posts:** Posts under `blog/` and `i18n/**/docusaurus-plugin-content-blog/` are a narrative devlog, not documentation. They are written in first person and past tense, as a chronicle of one development cycle, and the **Voice & Audience** rule above does not apply to them: converting a post to present tense or second person destroys the genre rather than improving the prose. What still applies: short sentences, minimal filler, verified claims, alt text on every image, and frontmatter on every post. The narrative canon lives outside this repository, so treat the existing published posts as the reference for voice and structure.
 
 ## Project Structure
 
