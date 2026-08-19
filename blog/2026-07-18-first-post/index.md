@@ -1,75 +1,123 @@
 ---
 slug: first-post
-title: This Time It's Personal (and Also About Games)
+title: The Long Way Back to the Metal
 authors: [dmitry]
-tags: [gba, retro, demoscene, romhacking, personal]
-date: 2026-07-19
+tags: [personal, retro, demoscene, romhacking, gba, cpp]
+date: 2026-07-18
+description: >
+  Where ToyGine2 came from: a ZX Spectrum and the demoscene, ROM hacking
+  fan translations on the Game Boy Advance, firmware with no operating
+  system, five MOAI games on a homemade engine, and ten years off.
+image: /img/blog/2026-07-18-1.webp
+sidebar_position: 1
 ---
 
-Here is a fact: I am a mobile developer with a wife, three sons, and a perfectly adequate career. And I just started writing a game engine from scratch. In C++. In 2026. If you are waiting for the punchline, there is not one. This is something I have wanted to do for years, and this blog is how I keep myself honest about it.
+I am a mobile developer. A wife, three sons, an ordinary career, and in 2026 I sat down to write a game engine in C++ from scratch, for machines like the Game Boy Advance and the Sega Mega Drive.
 
-The plan is simple. Write the engine. Ship games on it. Write about the whole thing as I go. If you are here for hot takes on Unity vs. Unreal or a tutorial on how to make a game in a weekend, you are in the wrong place. If you want to watch somebody crawl through the guts of a software renderer at 1 AM and genuinely enjoy it, stick around.
+There is no punchline coming. This is not a startup, not a portfolio piece, not an attempt to outrun anybody. It is the thing I have been walking toward for twenty years, and this blog is how I keep myself from quitting halfway.
 
 <!-- truncate -->
 
-## The Kilobytes That Started Everything
+![A dark room at night: a demo with raster bars runs on the TV, a rubber-keyed home computer and a floppy drive sit in front of it](/img/blog/2026-07-18-1.webp)
 
-I grew up with a ZX Spectrum 128K. If you know what that is, you probably just smiled or winced, depending on how many hours you lost waiting for a tape to load. If you do not know: imagine a computer with 128 kilobytes of RAM, a rubber keyboard that felt like dead flesh, and, in my case, an actual 5.25-inch floppy disk drive. I was practically living in the future. It was glorious.
+## The kilobytes where it started
 
-A group of friends and I got into the demoscene. For those who missed this particular corner of computing history, the demoscene is a subculture where people compete to create the most impressive audiovisual demos on extremely limited hardware. A few kilobytes of code, a handful of pixels, a sound chip with three channels, and you try to make something that makes people say "how is that even possible."
+My first computer was a ZX Spectrum 128K. A rubber keyboard that felt like dead flesh, a television set instead of a monitor and, a luxury at the time, a real 5.25-inch floppy drive. I did not spend five minutes waiting for a tape to load, and I was convinced I lived in the future.
 
-This was my first real taste of programming. Not tutorials. Not homework. Just the raw thrill of understanding hardware well enough to push it past what anyone thought it could do. I learned assembly because I had to. I learned about memory layout because there was no room for waste. Everything mattered.
+Inside, it was cramped, and the cramping was inventive. The screen held 256 by 192 pixels, but colour was stored apart from the pixels: each 8 by 8 cell got two colours, ink and paper. A sprite crossing somebody else's cell repainted the whole cell. This was called attribute clash, and half the graphical tricks of that era grew out of working around it, or at least pretending it was on purpose. Sound was three channels. Time was fifty interrupts a second. Everything else you counted yourself, in clock cycles.
 
-That feeling never left me.
+Some friends and I got into the demoscene. For anyone who walked past this corner of computing history: the demoscene is a subculture where people compete over who can wring the most impressive audiovisual piece out of limited hardware. A couple of kilobytes of code, a handful of pixels, three sound channels, and you try to build something that makes the viewer ask how that is even possible.
 
-## ROM Hacking the Game Boy Advance
+The size categories are their own kind of joy. There are demos, and then there are intros, where everything including music and graphics has to fit in four kilobytes, or in 256 bytes. You cannot draw a picture or record a melody in that space. You compute them on the fly, from a formula. The line between code and data disappears completely: the unpacker is the content.
 
-In university, I got my hands on a Game Boy Advance. The GBA was not just a handheld console to me. It was a tightly designed piece of hardware with a 16 MHz ARM7 processor, 384 kilobytes of RAM, and a 240x160 screen. Modest specs, even for the time. But the games on it were magic.
+That was my first real programming. Not textbooks, not homework, but the thrill of understanding a machine well enough to make it do more than it owed you. I learned Z80 assembly with no love for assembly involved, because otherwise the effect fit neither in memory nor in the frame. I worked out how memory was laid out because there were no spare bytes.
 
-I joined a fan translation group. We picked games that fascinated us and translated them into Russian, so people who did not know English could still get lost in those worlds. I handled the technical side. I would take a ROM file, a binary blob containing the entire game, and I would find the text inside it. Just raw bytes. I had to locate the font data, figure out the encoding, find the string tables, decode the graphics. Then I would patch in the translated text, repack everything, and test it.
+From the outside it looked like coloured stripes and two minutes of music. From the inside it was arithmetic: how many cycles until the next interrupt, how many bytes until the page boundary, what could be computed in advance and stored in a table. That is where I picked up an idea I never managed to shake: a constraint is not an obstacle, it is the statement of the problem. When you have 128 kilobytes, the question "what if we add one more system here" never comes up.
 
-There is a specific kind of joy in this. You open a file you did not create, in a format nobody documented, and you figure out how it works from the inside. The dialogue strings were at an offset you had to hunt for, the font was a bitmap buried somewhere in the binary, and if you got the pointer table wrong by two bytes the whole game crashed on the title screen. I loved every second of it.
+## ROM hacking on the Game Boy Advance
 
-I learned more about how games actually work from ROM hacking than from any book. Not how to use a game engine, but how a game is built. How resources are stored. How text rendering works at the bitmap level. How the CPU and the graphics chip talk to each other. These things have stayed with me.
+At university I got my hands on a Game Boy Advance. A processor a little over 16 MHz, a 240 by 160 screen, 384 kilobytes of memory split into three unequal pieces: fast internal, slow external, and video RAM. Modest even then. But the games on it were magic, and I wanted to know what the magic was made of.
 
-## Systems Programming, or How I Learned to Love Bare Metal
+I joined a fan translation group. We picked games that fascinated us and translated them into Russian, so that people who did not read English could get lost in those worlds too. The technical side was mine.
 
-After university I became a systems programmer. C and C++. Firmware for embedded boards. No operating system to cushion your mistakes. No garbage collector. No heap, just a fixed memory footprint you designed before the thing ever ran. If you wrote past the end of a buffer, the hardware told you nothing. No crash, no error. Things just behaved wrong, and you had to figure out why.
+Here is what that looks like. You have a ROM, a single binary image holding absolutely everything: code, graphics, music, text. No tools, no documentation, and the author is not going to explain anything. First you hunt for the font, stored as tiles, which you have to recognise by eye among thousands of other bytes. Then the encoding, different in every game, usually cracked by relative search: you look not for the bytes themselves but for the distances between them, because the distance from "a" to "b" stays the same however the table is shifted. Then the pointer table, because strings are not stored back to back. Each one has an address, and if you write your translation in without fixing the addresses, the game starts reading text from the middle of the previous line.
 
-To some people this sounds like a nightmare. To me it was a continuation of what I had been used to since the ZX Spectrum. Understanding the machine. Working at the level where a register write changes a voltage on a pin.
+Then the real work starts. A Russian sentence is almost always longer than the English one, and the space for it is exactly the space that was there. So the text moves into free room at the tail of the ROM and the pointers get rewritten to the new addresses. So the font really wants variable width, or the line will not fit the dialogue box. So you need to work out whether the block is compressed and with what. Every one of those edits gets verified by running the game: a pointer table off by two bytes drops it on the title screen, silently, with no explanation.
 
-This period is when I really learned C++. Not the modern template-metaprogramming-everything-is-a-concept C++. The C++ where you care about cache lines and data layout and whether your virtual function dispatch is going to tank your frame budget. The C++ you need when you write a game engine.
+Part of the job had nothing to do with programming. The translators were people, not machines, and they had to be told when a line would not fit: not because the translation was bad, but because the dialogue box is a fixed width and there is no room for another line. Half of what a technical person does in a group like that is not poking at bytes, it is giving an honest answer to "can we do this?"
 
-## Toyman Interactive and the First ToyGine
+I loved every second of it. You open a file you did not write, in a format nobody documented, and you work it out from the inside, from indirect evidence, like an archaeologist. ROM hacking taught me more about how games are built than any book: how resources are stored, how text turns into pixels, how the processor negotiates with the video chip. A book describes the interface. ROM hacking shows the implementation, and those are different kinds of knowledge.
 
-In 2012 my wife, a couple of friends, and I opened Toyman Interactive. We were small. A handful of people, a shared vision, and a lot of enthusiasm. I wrote the first version of ToyGine. On it we built and released five games in the MOAI series.
+The player, meanwhile, just saw Russian subtitles. The rest of the work is only visible when it is done badly.
 
-MOAI was a resource management series set on an uncharted island. You helped a hero and a native princess restore their ravaged land. There was an active volcano. There were hordes of ghosts attacking your workers. You gathered resources, rebuilt villages, and used Moai statues to protect your people while they worked. The games had comic book style story interludes and a pile of achievements for players who optimized every task. Not bad for a custom engine written by someone who learned to code on a ZX Spectrum.
+![Three panels: a dense grid of bytes, a pixel font emerging from it, and a dialogue box on a handheld console screen](/img/blog/2026-07-18-2.webp)
 
-Simple on the surface, but a lot of moving parts under the hood. Discrete event simulation, animation blending, UI, sound management, resource loading. A real engine had to handle all of it.
+## Bare metal
 
-We shipped those games. Five titles, designed, developed, and released. I am not going to pretend they changed the world, but they were real games that real people played. Making something from nothing, putting it into the hands of strangers, and watching them have fun with it. That is a high that does not fade.
+After university I became a systems programmer. C and C++, firmware for embedded boards. No operating system, so nobody covers for your mistake. No garbage collector. No heap either: you write out the memory budget before the code ever runs, and then you live inside that budget.
 
-Then life happened. The casual games market shifted. The economics of making games as a small independent studio got harder. I moved into web development, then mobile development. Toyman Interactive went quiet. ToyGine went into a drawer.
+Mistakes there are not reported. A write past the end of a buffer does not crash the program and does not print a message. It corrupts the neighbouring variable, and forty minutes later the device starts behaving strangely somewhere with no visible connection to that write. Debugging came down to holding the memory map in your head and reasoning about what else was lying nearby and who could have reached it.
 
-## The Long Pause
+To some people that sounds like a description of a nightmare. To me it was the Spectrum continued by other means. Understand the machine. Work at the level where writing to a register changes the voltage on a pin.
 
-For the better part of a decade, game development was not part of my life. I wrote Angular. I debugged Android and iOS builds. I sat in standups. I got good at it. I have nothing bad to say about the work. But the thought of building something of my own, at the metal, never fully went away.
+Those were the years I learned C++. Not the kind where everything turns into a template and a concept, but the kind where you think about data layout, structure size and the cost of a virtual call. The C++ you need when you write an engine. And the constraint turned out, again, to be the statement of the problem rather than a punishment. It was just written by a specification now instead of by Sinclair.
 
-It would surface at odd moments. Reading about a new rendering technique. Watching a GDC talk on retro console emulation. Randomly opening my old engine code at midnight and staring at it like it was a letter from a younger version of myself.
+## Toyman Interactive and the first ToyGine
 
-After a while, you stop ignoring those moments.
+In 2012 my wife, a couple of friends and I started Toyman Interactive. There were few of us: several people, a shared sense of what we wanted to make, and a lot of enthusiasm. I wrote the first version of ToyGine, and on it we shipped five games in the MOAI series.
 
-## Why Another Engine
+MOAI was a casual resource management series set on a lost island. The player helped a hero and an island princess restore a ruined land: gathering resources, rebuilding villages, raising Moai statues to shield the workers from ghosts while the work went on. A volcano smoked in the background. Comic-book interludes ran between levels, and there was a pile of achievements for anybody who likes optimising every action.
 
-So here we are. I am writing ToyGine2. A game engine. From scratch. In C++. On purpose.
+From the outside it all looked simple. Inside, a fair amount was turning: discrete event simulation, animation blending, interface, sound, resource loading. The player saw a queue of tasks and a volcano. I saw the event queue that pretends to be that queue of tasks, and watched it for drift when the player sped the game up.
 
-Why not use an existing engine? Unity is right there. Godot is open source and excellent. Unreal does everything. The honest answer is that I do not want an engine. I want to build an engine. I want to understand every decision. Why this memory allocator and not that one. Why this render pipeline. Why this entity model. When you use someone else's engine, you work inside their decisions. When you write your own, you own the decisions. The tradeoffs are yours to make and yours to live with.
+That was where I understood the difference between writing a game and writing an engine. A game can be finished. It ships, and everything crooked in it stays crooked forever, but it works. An engine cannot be finished. It lives exactly as long as people make games on it, and every next game arrives with a requirement that was not there last time. I wrote the first ToyGine for one specific game and got precisely what that game asked for. By the second one I had to find out which parts of my architecture were decisions and which were coincidences.
 
-This is not a commercial project. ToyGine2 is a hobby. But it is a hobby with teeth. I have a list of goals. The engine will reach a state where you can build and ship complete games on it. This blog is how I hold myself to that.
+We designed, built and released five games. I am not going to pretend they changed the world, but they were real games that real people played. Making something out of nothing, handing it to strangers and watching them enjoy it is a feeling that does not wear off.
 
-## What Comes Next
+Then the market changed. Casual games slid into a different economy, a small independent studio had nothing left to breathe in it, and by 2017 Toyman had gone quiet. I moved into web development, then mobile. ToyGine stayed in its repository.
 
-The next post will dig into the actual code. Architecture decisions. Why software rendering (yes, really). The compile-time reflection system that turned out way better than I expected. Maybe some screenshots, if you are into colored rectangles moving across other colored rectangles.
+![Above, an island with a smoking volcano, statues and workers; below, the same island reduced to a tile grid and a line of events](/img/blog/2026-07-18-3.webp)
 
-If any of this sounds interesting, subscribe to the RSS feed or star the GitHub repo. This train is leaving the station. It is not fast, but it is not stopping either.
+## The long pause
+
+For most of ten years, game development was not part of my life. I wrote Angular. I debugged Android and iOS builds. I went to standups. I got good at it, and I have nothing to hold against that work: it fed my family and taught me things I did not know, among them that people read somebody else's code far more often than they write their own.
+
+But the thought of building something of my own, down at the metal, never went away. It came back in bouts. A talk about emulating retro consoles. An article about fitting a renderer into a frame budget in 1995. My own old engine, opened at one in the morning for no reason, read like a letter from the twenty-year-old who wrote it: half the decisions I no longer understand, the other half I remember line by line.
+
+Ten years changed a few things, and not only in me. Compilers got noticeably smarter. C++ grew the features I had been missing in exactly the places where I used to get stuck, the ones computed at compile time that never reach the final program at all. Tools that used to cost as much as a car are sitting in the open. What we pulled off with a small team in 2012 can be carried alone now. Not easily, but it can.
+
+After a while you stop writing those bouts off as nostalgia.
+
+## Why another engine
+
+So: I am writing ToyGine2. A game engine. In C++. On purpose.
+
+The obvious question comes first. Why, when Unity, Godot and Unreal are right there? I do not want an engine, I want to write one. Working with somebody else's engine means working inside somebody else's decisions. Write your own and the decisions are yours, and so is the bill. I want to understand every one of them: why this allocator, why this entity model, why there will be no virtual call here.
+
+There is a second answer, less romantic. ToyGine2 aims at hardware the big engines simply do not run on: Game Boy Advance, Mega Drive, Nintendo 64, GameCube, Wii, PSP, with the ordinary desktop next to them. It is not that Unity is bad. It is built on different assumptions, dynamic memory and a rich runtime and garbage collection, none of which exists on a console with a hundred kilobytes of RAM, and none of which is going to.
+
+These machines are far more alive than they look from outside. They have current compilers and working toolchains, emulators that count cycles, and people who ship new games on them every year. A retro platform today is not a museum piece, it is an ordinary build target with a strict budget.
+
+Hence the constraints I wrote down for myself at the start. No allocations in hot paths, no `new`, no `malloc`, no `std::function`. No exceptions, `std::expected` and return codes instead. Data laid out the way the cache likes it rather than the way a class diagram looks good. Composition ahead of inheritance. And determinism: the game step must not depend on frame rate or render order, or the game can be neither saved nor replayed from a recording.
+
+It is the same conversation I was having on the Spectrum, except there are thirteen machines now. And it does not start from a blank page: ToyGine2 grows out of the engine Toyman built MOAI on, so some of the decisions have already been tested by games that shipped.
+
+Whoever eventually picks the engine up will need none of this. They will type one line, something like `cmake --preset gba-release`, and get a ROM that runs. The rest is my problem, and that is the whole point of the exercise.
+
+There is no commercial plan here. ToyGine2 is a hobby, but a hobby with a target: get the engine to the state where you can build and ship a finished game on it. The blog is how I keep myself from lying about the progress.
+
+## Lands beyond the horizon
+
+The engine holds little so far: a logger and the foundation of the time module. The near plans are down to earth.
+
+Build a build system that understands thirteen platforms the same way, from the Mega Drive to macOS. Stand up CI that runs all of them, not only the one sitting on my desk. Learn to verify console builds on an emulator, and anything timing-sensitive on real hardware. A game comes only after that, because an engine with no game on it has nothing to be checked against.
+
+The next post is about exactly that: the map of platforms, the build system, and the bugs that moved into it.
+
+## A question for the community
+
+One question has been open since the beginning, and I do not have the answer.
+
+Determinism across thirteen platforms. I want the game step computed identically everywhere, independent of frame rate and of whether the last frame finished drawing. On the desktop that is solved with a fixed step and an accumulator. On the Game Boy Advance the frame rate is nailed to the hardware, and the temptation to hang the logic straight off it is enormous, while on the Nintendo 64 the picture is tied just as firmly to a television standard, and the standards differ by region.
+
+How do you keep one game step where the hardware keeps its own time? Do you cut the logic loose from the frame entirely and pay for it in accuracy or complexity, or do you admit that each platform has its own clock and just pin down how far apart they drift? I would genuinely like to hear from people who have already walked this road.
