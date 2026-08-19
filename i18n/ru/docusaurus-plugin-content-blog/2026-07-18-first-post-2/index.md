@@ -1,9 +1,9 @@
 ---
-slug: first-post
+slug: first-post-2
 title: Долгая дорога обратно к железу
 authors: [dmitry]
 tags: [personal, retro, demoscene, romhacking, gba, cpp]
-date: 2026-07-19
+date: 2026-07-18
 description: >
   С чего начался ToyGine2: ZX Spectrum и демосцена, ромхакинг переводов
   на Game Boy Advance, прошивки без операционной системы, пять игр серии

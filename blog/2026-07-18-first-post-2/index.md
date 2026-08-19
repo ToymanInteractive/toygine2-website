@@ -1,9 +1,9 @@
 ---
-slug: first-post
+slug: first-post-2
 title: The Long Way Back to the Metal
 authors: [dmitry]
 tags: [personal, retro, demoscene, romhacking, gba, cpp]
-date: 2026-07-19
+date: 2026-07-18
 description: >
   Where ToyGine2 came from: a ZX Spectrum and the demoscene, ROM hacking
   fan translations on the Game Boy Advance, firmware with no operating
@@ -77,7 +77,6 @@ We designed, built and released five games. I am not going to pretend they chang
 Then the market changed. Casual games slid into a different economy, a small independent studio had nothing left to breathe in it, and by 2017 Toyman had gone quiet. I moved into web development, then mobile. ToyGine stayed in its repository.
 
 ![Above, an island with a smoking volcano, statues and workers; below, the same island reduced to a tile grid and a line of events](/img/blog/2026-07-18-3.webp)
-![Сверху остров с дымящим вулканом, статуями и рабочими, снизу тот же остров разобран на сетку тайлов и линию событий](/img/blog/2026-07-18-3.webp)
 
 ## The long pause
 
