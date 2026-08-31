@@ -27,54 +27,7 @@ I ended the last cycle on a question I had no answer to: how do you guard the ya
 - Move the entry point, the output and the screen into per-platform files instead of `#ifdef`
 - Run the GBA ROM under mGBA and register the run with CTest
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: заглавный кадр. Две колотушки рядом — привозная светлая и
-своя тёмная, только что вырезанная, — и ряд тотемов, ждущих удара. С первого
-взгляда должно читаться: инструментов два, и один сделан здесь.
-2:1, минимум 1200 × 630. Альтернатива: скриншот раскладки каталога раннера.
-
-ALT RU: Вечер у навеса: резчик держит тёмную колотушку, рядом на циновке лежит светлая привозная, вдоль берега стоят восемь тотемов
-ALT EN: Evening under a shelter: a carver holds a dark mallet, a pale traded one lies on the mat beside it, eight totems stand along the shore
-
-ДЛЯ AI:
-Evening on a low shore under a woven shelter. A seated carver has just
-finished shaping a dark hardwood mallet and holds it up, turning it in the
-light to judge the head. On the pandanus mat beside the knee lies a second
-mallet, clearly a different object: paler wood, smoother, worn from long use,
-plainly made somewhere else and carried here. Wood chips and a small adze lie
-between them. Behind the shelter, running away into perspective along the
-water's edge, stand eight carved wooden totems of different heights, each with
-its own ornamental banding, all of them untouched and waiting. The viewpoint is
-low and close to the carver, so the two mallets dominate the foreground and the
-row of totems recedes into the middle distance; the horizon sits in the upper
-third with open water beyond.
-
-FORMAT: 2:1 aspect ratio, at least 1200 × 630 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn editorial illustration; clean confident linework in the spirit of
-  Studio Ghibli background art; silhouette clarity and iconographic readability
-  of a Zelda adventure map; ornamented like an old Polynesian navigational
-  chart, with wave motifs and tattoo-like geometric banding along the borders.
-  Unless the scene above states otherwise, every person in frame is an ancient
-  Polynesian islander, dressed in the spirit of the costume design in Moana:
-  tapa cloth and woven plant fibre, barkcloth wraps and skirts, shell, bone and
-  feather ornaments, cord-bound or loose hair, wave-like tattoos, bare feet or
-  plaited sandals, and nothing modern on them.
-  The whole illustration sits on a torn sheet: the parchment ends in ragged
-  deckle edges with visible paper fibres, and outside those edges the image is
-  fully transparent alpha, never a white, coloured or rectangular fill.
-PALETTE: turquoise and deep ocean blue, terracotta and coral, warm gold
-  accents, on an aged parchment ground.
-LIGHT AND TEXTURE: low warm sun, long soft shadows, visible paper grain,
-  watercolor bleed at the edges, faint pencil under-drawing left showing.
-NEGATIVE: no legible text, lettering, glyph captions or numerals anywhere;
-  no logos or watermarks; no modern objects (screens, cables, vehicles);
-  no modern clothing, uniforms, boots or headgear on the islanders; no straight
-  cropped edges and no opaque background behind the torn sheet; no flat
-  corporate vector style; no neon or cyberpunk palette; no photorealism
-  or 3D render look; no lens flare; no close-up human faces; no clutter.
--->
+![Evening under a shelter: a carver holds a dark mallet, a pale traded one lies on the mat beside it, eight totems stand along the shore](/img/blog/2026-08-30-1.webp)
 
 ## A mallet from our own wood
 
@@ -84,55 +37,7 @@ I made it for all eight anyway, because a mixed set of tools costs more than cod
 
 The settler who takes the engine never sees the mallet. It lives under `tests/` and reaches neither the bundle nor the treaty. One thing changed on the outside: the scrolls stopped lying. `tests/AGENTS.md` had long promised that charms are checked on every land, and now that is true, and true in the way it was found out: the set builds twice, `toygine-units` under the traded mallet and `toygine-units-builtin` under mine. Seven notches and eighteen checks in both hands; change `0xFF` to `0xFE` in one of them and both go red.
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: кадр темы про отражение. Каменная чаша с водой, в которой
-отражён дальний остров с тотемом; над водой рука с колотушкой; от чаши уходит
-нить света к маяку. За спиной — настоящий остров на горизонте, тёмный и
-молчащий. С первого взгляда должно читаться: бьют по отражению, а не по земле.
-16:9, минимум 1600 × 900. Альтернатива: скриншот вывода отчёта в mGBA.
-
-ALT RU: Каменная чаша с водой на скале: в отражении остров с тотемом, над водой рука с колотушкой, нить света уходит к маяку, настоящий остров тёмен
-ALT EN: A stone water bowl on a cliff: an island with a totem reflected in it, a hand with a mallet above the water, a thread of light running to the beacon
-
-ДЛЯ AI:
-A wide stone bowl of still water set into a cliff ledge at dusk. The water
-holds a complete reflection of a small distant island with a single carved
-totem standing on it, sharp and bright as if it were the real place. A hand
-holding a dark mallet reaches over the bowl from the right, about to strike
-the reflected totem. From the rim of the bowl a thin thread of golden light
-rises and runs away to the left, toward a tall stone beacon burning on a
-headland. Behind the bowl and far beyond it, across open water on the horizon,
-the same island stands for real: dark, flat, unlit, giving nothing back. The
-viewpoint is level with the rim of the bowl so that the bright reflection and
-the dark real island sit in the same frame, the bowl filling the lower half
-and the horizon crossing the upper third.
-
-FORMAT: 16:9 aspect ratio, at least 1600 × 900 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn editorial illustration; clean confident linework in the spirit of
-  Studio Ghibli background art; silhouette clarity and iconographic readability
-  of a Zelda adventure map; ornamented like an old Polynesian navigational
-  chart, with wave motifs and tattoo-like geometric banding along the borders.
-  Unless the scene above states otherwise, every person in frame is an ancient
-  Polynesian islander, dressed in the spirit of the costume design in Moana:
-  tapa cloth and woven plant fibre, barkcloth wraps and skirts, shell, bone and
-  feather ornaments, cord-bound or loose hair, wave-like tattoos, bare feet or
-  plaited sandals, and nothing modern on them.
-  The whole illustration sits on a torn sheet: the parchment ends in ragged
-  deckle edges with visible paper fibres, and outside those edges the image is
-  fully transparent alpha, never a white, coloured or rectangular fill.
-PALETTE: turquoise and deep ocean blue, terracotta and coral, warm gold
-  accents, on an aged parchment ground.
-LIGHT AND TEXTURE: low warm sun, long soft shadows, visible paper grain,
-  watercolor bleed at the edges, faint pencil under-drawing left showing.
-NEGATIVE: no legible text, lettering, glyph captions or numerals anywhere;
-  no logos or watermarks; no modern objects (screens, cables, vehicles);
-  no modern clothing, uniforms, boots or headgear on the islanders; no straight
-  cropped edges and no opaque background behind the torn sheet; no flat
-  corporate vector style; no neon or cyberpunk palette; no photorealism
-  or 3D render look; no lens flare; no close-up human faces; no clutter.
--->
+![A stone water bowl on a cliff: an island with a totem reflected in it, a hand with a mallet above the water, a thread of light running to the beacon](/img/blog/2026-08-30-2.webp)
 
 ## The reflection answers when called
 
@@ -142,55 +47,7 @@ What remained was teaching the firmware where it stands. It asks out loud: it wr
 
 The "I am in the reflection" flag travels the same seam as the whole report, through the `writerData` the writer receives from outside. I knew the temptation to keep it in a file-level variable by sight: that is exactly the state I had spent three tasks clearing out of the runner. The Mega Drive has a voice of its own kind of funny. It prints into unused VDP register `0x9E`, which emulators show as a console and hardware treats as a harmless `no-op`. From the land all of this shows up as one new line by the gate: where `run_test: "false"` stood, a run now happens and a verdict comes back. The old check at the entrance changed meaning too: `TOYGINE_TARGET_PLATFORM_SUPPORT_CTEST` no longer says "there are tests here" but "the host runs the binary itself." I keep the edge of the image in mind and in a comment: the reflection answers when called and the land stays silent, and what tells them apart from the inside is the rite, not the bowl.
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: кадр темы про мутационную проверку. Ряд тотемов, у одного
-основание подпилено, и подпил виден зрителю, но не тому, кто бьёт: тотем стоит
-ровно, как остальные. Строитель заносит колотушку. С первого взгляда должно
-читаться: оберег повреждён и всё равно выглядит целым.
-16:9, минимум 1600 × 900. Альтернатива: скриншот таблицы «инъекция — упавший тест».
-
-ALT RU: Пять тотемов в ряд на берегу, у второго основание подпилено почти насквозь, но он стоит ровно; человек с колотушкой заносит руку над первым
-ALT EN: Five totems in a row on the shore, the second sawn nearly through at the base yet standing straight; a figure raises a mallet over the first
-
-ДЛЯ AI:
-Morning light on a stony shore. Five carved wooden totems stand in a row,
-evenly spaced, each with its own ornamental banding, all of them upright and
-identical in bearing. The second totem from the left has been cut almost
-all the way through at its base: a clean fresh notch shows pale inner wood and
-a scatter of sawdust on the stones, yet the totem stands as straight as the
-others and nothing about its posture gives it away. A standing figure at the
-left, seen from behind and slightly below, raises a dark mallet over the first
-totem, attention on that one, the damaged base outside their line of sight.
-The viewpoint is low, so the row runs across the frame into perspective, the
-cut base sits near the centre at eye level, and the horizon crosses the
-upper third with open water beyond.
-
-FORMAT: 16:9 aspect ratio, at least 1600 × 900 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn editorial illustration; clean confident linework in the spirit of
-  Studio Ghibli background art; silhouette clarity and iconographic readability
-  of a Zelda adventure map; ornamented like an old Polynesian navigational
-  chart, with wave motifs and tattoo-like geometric banding along the borders.
-  Unless the scene above states otherwise, every person in frame is an ancient
-  Polynesian islander, dressed in the spirit of the costume design in Moana:
-  tapa cloth and woven plant fibre, barkcloth wraps and skirts, shell, bone and
-  feather ornaments, cord-bound or loose hair, wave-like tattoos, bare feet or
-  plaited sandals, and nothing modern on them.
-  The whole illustration sits on a torn sheet: the parchment ends in ragged
-  deckle edges with visible paper fibres, and outside those edges the image is
-  fully transparent alpha, never a white, coloured or rectangular fill.
-PALETTE: turquoise and deep ocean blue, terracotta and coral, warm gold
-  accents, on an aged parchment ground.
-LIGHT AND TEXTURE: low warm sun, long soft shadows, visible paper grain,
-  watercolor bleed at the edges, faint pencil under-drawing left showing.
-NEGATIVE: no legible text, lettering, glyph captions or numerals anywhere;
-  no logos or watermarks; no modern objects (screens, cables, vehicles);
-  no modern clothing, uniforms, boots or headgear on the islanders; no straight
-  cropped edges and no opaque background behind the torn sheet; no flat
-  corporate vector style; no neon or cyberpunk palette; no photorealism
-  or 3D render look; no lens flare; no close-up human faces; no clutter.
--->
+![Five totems in a row on the shore, the second sawn nearly through at the base yet standing straight; a figure raises a mallet over the first](/img/blog/2026-08-30-3.webp)
 
 ## A charm that stands and guards nothing
 
