@@ -106,60 +106,7 @@ There was one trap with doctest. The test targets called `include(doctest)` to g
 
 Vendoring gives an offline build, and a trimmed copy under the project's `-Werror` also forces me to decide which third-party code I'm willing to read and maintain. The cost is that I now update the copies by hand. For anyone building the engine, the main change is that configuring after `git clone` downloads nothing, and the editor needs neither the network nor the Vulkan SDK.
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: кадр темы про вендоринг, «деталь под лупой». Разобранная
-донорская приставка: руки мастера вынимают одну маленькую плату, а пустой
-корпус, блок питания и моток проводов сдвинуты к краю верстака. Пропорции
-16:9, минимум 1600 × 900. Если генерация не сложится, подойдёт скриншот
-дерева thirdparty в IDE.
-
-ALT RU: Мастер вынимает одну плату из разобранной донорской приставки, пустой корпус и блок питания сдвинуты к краю верстака
-ALT EN: The toymaker lifts one circuit board out of a gutted donor console, its empty shell and power brick pushed to the bench edge
-
-ДЛЯ AI:
-A workbench seen from over the toymaker's shoulder. In the centre lies a
-fully disassembled grey 8-bit home console of invented design, its parts
-spread out. The toymaker's hands, one holding a small screwdriver, lift a
-single small green circuit board out of the opened lower shell and hold it
-up into the lamplight. To the right, on a folded cloth, three other small
-boards already rest side by side, clean and sorted. Pushed to the far left
-edge of the bench are the parts that stay behind: the empty upper shell,
-a heavy black power brick and a loose tangle of cables. A jeweller's loupe
-on its headband lies next to the sorted boards. The lifted board is the
-brightest point of the frame; the discarded shell sits in soft shadow.
-
-FORMAT: 16:9 aspect ratio, at least 1600 x 900 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn ink and watercolour illustration, like a page from a
-  craftsman's working sketchbook; clean confident linework and cosy,
-  cluttered-but-ordered interiors in the spirit of the antique shop in
-  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
-  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
-  filament bulbs. Technical-drawing flourishes around the subject:
-  leader lines, dimension ticks and faint construction circles, never
-  readable writing. Retro game consoles, handhelds and cartridges are of
-  invented, unbranded design, recognisable only by the silhouette of
-  their era. Unless the scene above states otherwise, the only person in
-  frame is the toymaker, seen from behind or as hands at the workbench:
-  leather apron, rolled shirt sleeves, a loupe on a headband.
-  The whole illustration sits on a page torn from the sketchbook: ragged
-  deckle edges with visible paper fibres, and outside those edges the
-  image is fully transparent alpha, never a white, coloured or
-  rectangular fill.
-PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
-  teal-green accent from old CRT glow.
-LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
-  paper grain, watercolour bleed at the edges, faint pencil
-  under-drawing left showing.
-NEGATIVE: no legible text, lettering, labels or numerals anywhere,
-  including on screens, cartridges and boxes; no logos, brand marks or
-  watermarks; no real console brands; no readable code on screens;
-  no straight cropped edges and no opaque background behind the torn
-  page; no flat corporate vector style; no neon or cyberpunk palette;
-  no photorealism or 3D render look; no close-up human faces; no clutter
-  that hides the subject.
--->
+![The toymaker lifts one circuit board out of a gutted donor console, its empty shell and power brick pushed to the bench edge](/img/blog/2026-09-28-3.webp)
 
 ## Numbers {#numbers}
 
