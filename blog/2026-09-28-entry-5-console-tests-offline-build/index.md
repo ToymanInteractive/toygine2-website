@@ -65,62 +65,7 @@ While the log stayed empty, I suspected the ROM itself: either the CPU wasn't st
 
 An emulator in CI is a dependency just like the compiler, and it behaves in ways without a terminal that aren't documented anywhere. I no longer trust an emulator's exit code until I have seen the test fail. For someone writing a game on the engine, this is what changed: every PR runs 65 test cases and 391 checks on an emulated 68000 and ARM7, so a bug that only lives on the 68000 will show up before the merge.
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: заглавный кадр, «деталь под лупой». Вскрытая 16-битная
-приставка на верстаке, от неё кабель к ЭЛТ-телевизору, на экране столбик
-зелёных квадратиков (отчёт прошёл). Рядом лежит второй кабель, ни к чему
-не подключённый: терминал, которого BlastEm ждал вечно. Пропорции 2:1,
-минимум 1200 × 630. Если генерация не сложится, подойдёт скриншот
-зелёного прогона ctest с BlastEm.
-
-ALT RU: Вскрытая 16-битная приставка на верстаке подключена к ЭЛТ-экрану со столбиком зелёных квадратов, рядом лежит свободный кабель
-ALT EN: An opened 16-bit console on the workbench wired to a CRT showing a column of green squares, a spare cable left unplugged beside it
-
-ДЛЯ AI:
-A workbench seen at eye level from slightly to the left. In the centre sits
-a chunky black 16-bit home console with a single cartridge slot on top; its
-top shell is lifted off and rests against it, showing a green circuit board.
-A thick cable runs from the back of the console to a small old CRT television
-standing on a wooden cabinet on the right. The CRT glows teal-green and shows
-a neat vertical column of ten small green pixel squares, one under another,
-and below them one wider green bar. In the foreground on the bench lies a
-second cable, coiled loosely, its plug pointing at nothing and connected to
-nothing. The toymaker's hands rest on the bench edge at the lower left,
-a jeweller's loupe on a headband visible at the top of the frame. The console
-and the lit screen dominate; the loose cable gives the story.
-
-FORMAT: 2:1 aspect ratio, at least 1200 x 630 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn ink and watercolour illustration, like a page from a
-  craftsman's working sketchbook; clean confident linework and cosy,
-  cluttered-but-ordered interiors in the spirit of the antique shop in
-  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
-  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
-  filament bulbs. Technical-drawing flourishes around the subject:
-  leader lines, dimension ticks and faint construction circles, never
-  readable writing. Retro game consoles, handhelds and cartridges are of
-  invented, unbranded design, recognisable only by the silhouette of
-  their era. Unless the scene above states otherwise, the only person in
-  frame is the toymaker, seen from behind or as hands at the workbench:
-  leather apron, rolled shirt sleeves, a loupe on a headband.
-  The whole illustration sits on a page torn from the sketchbook: ragged
-  deckle edges with visible paper fibres, and outside those edges the
-  image is fully transparent alpha, never a white, coloured or
-  rectangular fill.
-PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
-  teal-green accent from old CRT glow.
-LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
-  paper grain, watercolour bleed at the edges, faint pencil
-  under-drawing left showing.
-NEGATIVE: no legible text, lettering, labels or numerals anywhere,
-  including on screens, cartridges and boxes; no logos, brand marks or
-  watermarks; no real console brands; no readable code on screens;
-  no straight cropped edges and no opaque background behind the torn
-  page; no flat corporate vector style; no neon or cyberpunk palette;
-  no photorealism or 3D render look; no close-up human faces; no clutter
-  that hides the subject.
--->
+![An opened 16-bit console on the workbench wired to a CRT showing a column of green squares, a spare cable left unplugged beside it](/img/blog/2026-09-28-1.webp)
 
 ## The string that didn't fit {#string}
 
@@ -145,61 +90,7 @@ The idea was to copy a short string as a fixed-size block. Clang merged both bra
 
 Without exceptions, every operation needs a clear answer to "what's left after a refusal", and the standard's guarantees are the best source for that answer: the thinking is done, it only needs translating. For someone writing a game, `FixedString` behaves like `std::string` wherever that is possible without a heap. Overflow is predictable: the string ends up either empty or unchanged.
 
-<!--
-ДЛЯ ЧЕЛОВЕКА: кадр темы про строку, «было/стало» в одном кадре. Две
-коробки для винтиков. Маленькую пересыпают целиком в другую коробку.
-У большой пинцет переносит винтики только из немногих занятых ячеек,
-остальные пусты. Пропорции 16:9, минимум 1600 × 900. Если генерация не
-сложится, подойдёт скриншот таблицы бенчмарков копирования.
-
-ALT RU: Маленькую коробку винтиков пересыпают целиком, у большой пинцет берёт винтики только из трёх занятых ячеек из сорока восьми
-ALT EN: A small screw box is tipped out whole, while tweezers lift screws from just three filled compartments of a large forty-eight-cell box
-
-ДЛЯ AI:
-Two wooden parts boxes on the workbench, seen from above at a slight angle.
-On the left, a small box with four square compartments, each holding one
-brass screw, is being tipped over by the toymaker's hand so that all four
-screws slide together into an identical empty small box below it. On the
-right lies a large flat box with forty-eight compartments in six rows of
-eight; only three compartments in the first row hold a brass screw, the
-other forty-five are empty and clean. A pair of steel tweezers lifts one of
-those three screws towards a second large empty box beside it. The two
-halves of the frame mirror each other: whole box poured on the left,
-single screws picked on the right. Leader lines and dimension ticks around
-the large box hint at its size, with no writing.
-
-FORMAT: 16:9 aspect ratio, at least 1600 x 900 pixels.
-
-STYLE (identical across all images, so the set reads as one series):
-  hand-drawn ink and watercolour illustration, like a page from a
-  craftsman's working sketchbook; clean confident linework and cosy,
-  cluttered-but-ordered interiors in the spirit of the antique shop in
-  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
-  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
-  filament bulbs. Technical-drawing flourishes around the subject:
-  leader lines, dimension ticks and faint construction circles, never
-  readable writing. Retro game consoles, handhelds and cartridges are of
-  invented, unbranded design, recognisable only by the silhouette of
-  their era. Unless the scene above states otherwise, the only person in
-  frame is the toymaker, seen from behind or as hands at the workbench:
-  leather apron, rolled shirt sleeves, a loupe on a headband.
-  The whole illustration sits on a page torn from the sketchbook: ragged
-  deckle edges with visible paper fibres, and outside those edges the
-  image is fully transparent alpha, never a white, coloured or
-  rectangular fill.
-PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
-  teal-green accent from old CRT glow.
-LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
-  paper grain, watercolour bleed at the edges, faint pencil
-  under-drawing left showing.
-NEGATIVE: no legible text, lettering, labels or numerals anywhere,
-  including on screens, cartridges and boxes; no logos, brand marks or
-  watermarks; no real console brands; no readable code on screens;
-  no straight cropped edges and no opaque background behind the torn
-  page; no flat corporate vector style; no neon or cyberpunk palette;
-  no photorealism or 3D render look; no close-up human faces; no clutter
-  that hides the subject.
--->
+![A small screw box is tipped out whole, while tweezers lift screws from just three filled compartments of a large forty-eight-cell box](/img/blog/2026-09-28-2.webp)
 
 ## Every dependency in the repository {#vendoring}
 
