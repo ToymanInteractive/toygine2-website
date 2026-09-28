@@ -2,7 +2,7 @@
 slug: entry-5-console-tests-offline-build
 title: "Запись 5: тесты на приставках и сборка без сети"
 authors: [dmitry]
-tags: [cpp, ci, cmake, docker, testing, md, gba]
+tags: [cpp, ci, cmake, docker, testing, md, gba, benchmarks]
 date: 2026-09-28
 description: >
   Пятая запись журнала мастерской. Тесты движка заработали под эмулятором

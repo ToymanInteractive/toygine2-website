@@ -2,7 +2,7 @@
 slug: entry-5-console-tests-offline-build
 title: "Entry 5: Tests on Consoles and an Offline Build"
 authors: [dmitry]
-tags: [cpp, ci, cmake, docker, testing, md, gba]
+tags: [cpp, ci, cmake, docker, testing, md, gba, benchmarks]
 date: 2026-09-28
 description: >
   The fifth entry in the workshop journal. The engine's tests now run under
