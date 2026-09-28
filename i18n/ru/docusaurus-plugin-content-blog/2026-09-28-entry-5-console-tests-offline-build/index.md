@@ -1,0 +1,286 @@
+---
+slug: entry-5-console-tests-offline-build
+title: "Запись 5: тесты на приставках и сборка без сети"
+authors: [dmitry]
+tags: [cpp, ci, cmake, docker, testing, md, gba]
+date: 2026-09-28
+description: >
+  Пятая запись журнала мастерской. Тесты движка заработали под эмулятором
+  Mega Drive, строка без кучи научилась присваиванию, а все зависимости
+  переехали в репозиторий.
+image: /img/blog/2026-09-28-1.webp
+sidebar_position: 1
+---
+
+Две недели Mega Drive простояла не на полке, а на краю верстака. Я пишу движок ToyGine2 для небольших игр, которые должны запускаться и на современных машинах, и на приставках с этой полки. В этом цикле его тесты впервые прошли на Mega Drive, у строки фиксированного размера появилось присваивание, а сборка перестала ходить в сеть.
+
+<!-- truncate -->
+
+[Коротко](#short) · [Тесты на Mega Drive и GBA](#consoles) · [Строка, которая не влезла](#string) · [Все зависимости в репозитории](#vendoring) · [Цифры](#numbers) · [Что дальше](#next)
+
+## Коротко {#short}
+
+Модульные тесты движка теперь гоняются в CI под эмулятором Mega Drive, а на GBA — под свободным BIOS вместо встроенной подмены у mGBA. `toy::FixedString` получил конструкторы и присваивания по образцу `std::basic_string` и по-прежнему не трогает кучу. В сборке не осталось ни одного `FetchContent`: все зависимости лежат в репозитории. Всё это вошло в версию 26.20.0: [релиз на GitHub](https://github.com/ToymanInteractive/toygine2/releases/tag/26.20.0).
+
+- Docker-образы тулчейнов MD и GBA собираются на нативных arm64-раннерах GitHub вместо QEMU.
+- Появился образ тулчейна для N64: libdragon с ветки `preview` и GCC 16.2.
+- Два тестовых бинаря движка слились в один, а раннер теперь задаётся опцией `TOYGINE_TESTS_RUNNER`.
+- У редактора своя тестовая цель `editor-units` и первый кусок модели проекта — реестр настроек.
+- Бенчмарки пишутся через `toy::benchmark::Bench`: на десктопе за ним стоит nanobench, а где nanobench нет — встроенный замерщик, который потом поедет на консоли.
+- Bencher комментирует PR только при алерте и только по Linux x64; раньше приходило семь одинаковых отчётов.
+- Из `toy::` убраны реэкспорты `std::array`, `std::char_traits`, `std::min` и ещё пяти имён: теперь они пишутся через `std::`. Это ломает совместимость.
+
+## Тесты на Mega Drive и GBA {#consoles}
+
+На GBA тесты движка к тому времени уже месяц гонялись в CI под mGBA. Для Mega Drive я собрал эмулятор BlastEm в Docker-образ тулчейна и включил такой же прогон. Шаг CI стабильно падал по таймауту: `units-builtin ***Timeout 60.06 sec`, и ни одной строки вывода.
+
+Первый круг я сделал прямо в CI, временным шагом с `set -x` и `blastem -h`. Узнал немного: флага `-b`, который прогоняет заданное число кадров без окна, в справке нет, а вывода нет вовсе. Дальше разведка ушла в локальный контейнер, где сборка ROM и прогон занимают около секунды.
+
+Решила дело лесенка по кадрам. `-b 5` выходил сразу и с нулевым кодом, `-b 60` и `-b 1800` висели до таймаута. Значит, кадры считаются и эмуляция жива, а встаёт всё там, где раннер печатает первую строку отчёта.
+
+ROM пишет строки отчёта в отладочный регистр видеочипа, а BlastEm печатает их как `KDEBUG MESSAGE`. Перед каждой такой печатью он зовёт `init_terminal()`. Если stdin и stdout не подключены к терминалу, BlastEm закрывает стандартные потоки, форкает xterm и ждёт на FIFO, пока тот подключится. В контейнере CI нет X-сервера, xterm не стартует, и процесс ждёт вечно, уже без stdout. Отсюда и пустой лог. Лечит всё флаг `-t`, которого в `blastem -h` тоже нет: оба флага я нашёл только в исходниках.
+
+Когда зависание ушло, открылась вторая дыра. BlastEm всегда выходит с кодом 0, а проверки вывода у теста не было, так что после `-t` тест зеленел бы при любом числе провалов. Теперь вердикт выносится по тексту вывода.
+
+```mermaid
+flowchart LR
+  A[ctest] --> B["blastem -t -b 1800"]
+  B --> C[ROM с тестами]
+  C -->|KDEBUG| D[stdout]
+  D --> E{"строка итога<br/>failed=0?"}
+  E -->|да| F[тест пройден]
+  E -->|нет или строки нет| G[тест упал]
+```
+
+Строку `# assertions passed=N failed=0` раннер печатает последней, поэтому одна регулярка в `PASS_REGULAR_EXPRESSION` ловит и проваленные проверки, и прогон, оборванный на середине. Я проверил её на старом ROM, где одна проверка падала: тест покраснел, CTest вернул 8 и выложил в лог весь отчёт.
+
+На GBA в тот же цикл появился полноценный BIOS. Раньше mGBA подменял его своей эмуляцией, теперь в образе лежит emibios — свободная замена оригинальному BIOS. Первый прогон с ним вывалил в лог 192 строки `GBA DMA` от заставки. Флаг `-C skipBios=1` пропускает заставку, а системные вызовы по-прежнему идут через код BIOS. Цена — загрузка через BIOS в CI больше не проверяется.
+
+<details>
+<summary>Первые гипотезы: мёртвый 68000 и битый заголовок картриджа</summary>
+
+Пока лог был пустым, я подозревал сам ROM: что процессор не стартует или заголовок картриджа собран неправильно. Флаг `-l` должен был записать трассу адресов, но файл оставался пустым: процесс убивали раньше, чем он успевал сбросить буфер. Обе гипотезы сняла лесенка по кадрам. Мёртвый процессор не дожил бы до выхода на пятом кадре.
+
+</details>
+
+Эмулятор в CI — такая же зависимость, как компилятор, и у него есть поведение без терминала, которое нигде не описано. Коду возврата эмулятора я теперь не верю, пока не увижу, как тест падает. Для того, кто пишет игру на движке, изменилось вот что: каждый PR прогоняет 65 кейсов и 391 проверку на эмулированных 68000 и ARM7, и ошибка, которая живёт только на 68000, всплывёт до мержа.
+
+<!--
+ДЛЯ ЧЕЛОВЕКА: заглавный кадр, «деталь под лупой». Вскрытая 16-битная
+приставка на верстаке, от неё кабель к ЭЛТ-телевизору, на экране столбик
+зелёных квадратиков (отчёт прошёл). Рядом лежит второй кабель, ни к чему
+не подключённый: терминал, которого BlastEm ждал вечно. Пропорции 2:1,
+минимум 1200 × 630. Если генерация не сложится, подойдёт скриншот
+зелёного прогона ctest с BlastEm.
+
+ALT RU: Вскрытая 16-битная приставка на верстаке подключена к ЭЛТ-экрану со столбиком зелёных квадратов, рядом лежит свободный кабель
+ALT EN: An opened 16-bit console on the workbench wired to a CRT showing a column of green squares, a spare cable left unplugged beside it
+
+ДЛЯ AI:
+A workbench seen at eye level from slightly to the left. In the centre sits
+a chunky black 16-bit home console with a single cartridge slot on top; its
+top shell is lifted off and rests against it, showing a green circuit board.
+A thick cable runs from the back of the console to a small old CRT television
+standing on a wooden cabinet on the right. The CRT glows teal-green and shows
+a neat vertical column of ten small green pixel squares, one under another,
+and below them one wider green bar. In the foreground on the bench lies a
+second cable, coiled loosely, its plug pointing at nothing and connected to
+nothing. The toymaker's hands rest on the bench edge at the lower left,
+a jeweller's loupe on a headband visible at the top of the frame. The console
+and the lit screen dominate; the loose cable gives the story.
+
+FORMAT: 2:1 aspect ratio, at least 1200 x 630 pixels.
+
+STYLE (identical across all images, so the set reads as one series):
+  hand-drawn ink and watercolour illustration, like a page from a
+  craftsman's working sketchbook; clean confident linework and cosy,
+  cluttered-but-ordered interiors in the spirit of the antique shop in
+  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
+  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
+  filament bulbs. Technical-drawing flourishes around the subject:
+  leader lines, dimension ticks and faint construction circles, never
+  readable writing. Retro game consoles, handhelds and cartridges are of
+  invented, unbranded design, recognisable only by the silhouette of
+  their era. Unless the scene above states otherwise, the only person in
+  frame is the toymaker, seen from behind or as hands at the workbench:
+  leather apron, rolled shirt sleeves, a loupe on a headband.
+  The whole illustration sits on a page torn from the sketchbook: ragged
+  deckle edges with visible paper fibres, and outside those edges the
+  image is fully transparent alpha, never a white, coloured or
+  rectangular fill.
+PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
+  teal-green accent from old CRT glow.
+LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
+  paper grain, watercolour bleed at the edges, faint pencil
+  under-drawing left showing.
+NEGATIVE: no legible text, lettering, labels or numerals anywhere,
+  including on screens, cartridges and boxes; no logos, brand marks or
+  watermarks; no real console brands; no readable code on screens;
+  no straight cropped edges and no opaque background behind the torn
+  page; no flat corporate vector style; no neon or cyberpunk palette;
+  no photorealism or 3D render look; no close-up human faces; no clutter
+  that hides the subject.
+-->
+
+## Строка, которая не влезла {#string}
+
+`toy::FixedString<N>` — строка с буфером фиксированного размера внутри самого объекта, кучи она не трогает. За цикл у неё появились все конструкторы и присваивания из `std::basic_string`. Сразу встал вопрос, которого у стандартной строки нет: что делать, когда текст не влез. `std::string` бросает `std::length_error`, а в движке исключения выключены.
+
+Я взял за образец гарантии стандарта, насколько их можно повторить без исключений. При `length_error` объект `std::string` просто не создаётся, частичного результата нет. Поэтому конструктор, которому не хватило места, в отладочной сборке останавливается на `assert_message`, а в релизной оставляет строку пустой. Обрезать до `capacity()` я не стал: такой полуправды у стандарта нет. С присваиванием иначе. Строка там уже жила, и отказ хранилища оставляет её прежней.
+
+Потом я занялся ценой копии. `FixedString` по умолчанию копирует весь буфер. Для строки на 16 байт это дёшево: компилятор разворачивает копию в несколько инструкций. Для `FixedString<4096>` с восемью символами это четыре килобайта лишней работы. Хранилище теперь копирует буфер целиком до порога, а выше порога — только `size() + 1` байт. Как с коробками для винтиков: маленькую проще пересыпать целиком, а у большой быстрее переложить винтики из одних занятых ячеек.
+
+Один порог на всех не подошёл. Порог в 64 байта бьёт по десктопу, где clang разворачивает и 72-байтовую копию, а порог в 72 — по GBA. Поэтому у каждой платформы теперь свой `platform_config.hpp` с константой `c_inlineCopyMaxBytes`. Для консолей значения я снял с кода, который генерирует GCC: от 28 до 60 байт. Для macOS прогнал сетку замеров и взял 128. Windows, Linux и Switch пока получили 128 по оценке, без замера.
+
+Заодно конструктор хранилища перестал обнулять буфер и теперь пишет только терминатор. На GBA `FixedString<256>` потерял `memset` при каждом создании. Это сразу аукнулось: тест хранилища сравнивал весь буфер и упал на CI в оптимизированной сборке, прочитав неинициализированный хвост. Чинить пришлось тест.
+
+Отдельный сюрприз ждал на Mega Drive. Урезанная libstdc++ в SDK ставит `<ranges>` без внутреннего `bits/binders.h`, и конструктор от пары итераторов не собирался. Файл я положил в оверлей SDK в репозитории как есть. После `-O2` от `ranges` в коде MD и GBA остаются только вычитание указателей и `memcpy`.
+
+<details>
+<summary>Быстрый путь для коротких строк: откатил</summary>
+
+Идея была копировать короткую строку блоком фиксированного размера. Компилятор clang слил обе ветки в один `memmove` на `max(size, block) + 1` байт, и на macOS стало медленнее: 2,6–3,0 нс вместо 1,9. GCC для ARMv4T без `std::assume_aligned` копировал `char`-буфер вызовом функции, а `<memory>` ради этой подсказки добавлял к общему заголовку ядра 20% строк препроцессора. К тому же размер блока я привязал к `c_inlineCopyMaxBytes`, а это разные величины.
+
+</details>
+
+Без исключений у каждой операции должен быть явный ответ на вопрос «что остаётся после отказа», и лучший источник ответа — гарантии стандарта: они уже продуманы, их нужно только перевести. Для того, кто пишет игру, `FixedString` ведёт себя как `std::string` везде, где это возможно без кучи. Исход переполнения предсказуем: строка остаётся пустой или прежней, но обрезанной не бывает никогда.
+
+<!--
+ДЛЯ ЧЕЛОВЕКА: кадр темы про строку, «было/стало» в одном кадре. Две
+коробки для винтиков. Маленькую пересыпают целиком в другую коробку.
+У большой пинцет переносит винтики только из немногих занятых ячеек,
+остальные пусты. Пропорции 16:9, минимум 1600 × 900. Если генерация не
+сложится, подойдёт скриншот таблицы бенчмарков копирования.
+
+ALT RU: Маленькую коробку винтиков пересыпают целиком, у большой пинцет берёт винтики только из трёх занятых ячеек из сорока восьми
+ALT EN: A small screw box is tipped out whole, while tweezers lift screws from just three filled compartments of a large forty-eight-cell box
+
+ДЛЯ AI:
+Two wooden parts boxes on the workbench, seen from above at a slight angle.
+On the left, a small box with four square compartments, each holding one
+brass screw, is being tipped over by the toymaker's hand so that all four
+screws slide together into an identical empty small box below it. On the
+right lies a large flat box with forty-eight compartments in six rows of
+eight; only three compartments in the first row hold a brass screw, the
+other forty-five are empty and clean. A pair of steel tweezers lifts one of
+those three screws towards a second large empty box beside it. The two
+halves of the frame mirror each other: whole box poured on the left,
+single screws picked on the right. Leader lines and dimension ticks around
+the large box hint at its size, with no writing.
+
+FORMAT: 16:9 aspect ratio, at least 1600 x 900 pixels.
+
+STYLE (identical across all images, so the set reads as one series):
+  hand-drawn ink and watercolour illustration, like a page from a
+  craftsman's working sketchbook; clean confident linework and cosy,
+  cluttered-but-ordered interiors in the spirit of the antique shop in
+  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
+  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
+  filament bulbs. Technical-drawing flourishes around the subject:
+  leader lines, dimension ticks and faint construction circles, never
+  readable writing. Retro game consoles, handhelds and cartridges are of
+  invented, unbranded design, recognisable only by the silhouette of
+  their era. Unless the scene above states otherwise, the only person in
+  frame is the toymaker, seen from behind or as hands at the workbench:
+  leather apron, rolled shirt sleeves, a loupe on a headband.
+  The whole illustration sits on a page torn from the sketchbook: ragged
+  deckle edges with visible paper fibres, and outside those edges the
+  image is fully transparent alpha, never a white, coloured or
+  rectangular fill.
+PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
+  teal-green accent from old CRT glow.
+LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
+  paper grain, watercolour bleed at the edges, faint pencil
+  under-drawing left showing.
+NEGATIVE: no legible text, lettering, labels or numerals anywhere,
+  including on screens, cartridges and boxes; no logos, brand marks or
+  watermarks; no real console brands; no readable code on screens;
+  no straight cropped edges and no opaque background behind the torn
+  page; no flat corporate vector style; no neon or cyberpunk palette;
+  no photorealism or 3D render look; no close-up human faces; no clutter
+  that hides the subject.
+-->
+
+## Все зависимости в репозитории {#vendoring}
+
+До этого цикла CMake при конфигурации сам качал из сети doctest, volk и тему для Doxygen. Остальное уже лежало в `thirdparty/`, но каждый модуль там был устроен по-своему. Два способа сразу давали две версии правды: volk версии 1.4.350 приходил к заголовкам Vulkan 1.4.362.
+
+Правило я перевернул. Раньше `FetchContent` был способом по умолчанию, теперь зависимости только вендорятся: копия лежит в `thirdparty/<имя>/`, рядом модуль `thirdparty/<имя>.cmake`, и все модули устроены одинаково.
+
+В копию идёт только то, что собирается. У zlib осталось 20 файлов: файловый API `gz*` не нужен движку, у которого свой слой ввода-вывода. У libpng осталось 29 файлов из 380, у doctest — 4, у темы Doxygen — 11 из 41, без GIF на 5,6 МБ. Так я годами разбирал донорские приставки: забираешь исправную плату, а корпус и блок питания остаются на полке.
+
+Вендоренный код собирается с проектными флагами, включая `-Werror`, без глушилки `-w`. Библиотеки zlib, libpng и volk прошли так без единого предупреждения. А вот ckdl не прошёл: 13 ошибок от `-Wbad-function-cast` и `-Wassign-enum`, так что `-w` остался только у него, с причиной в комментарии.
+
+Одна ловушка была с doctest. Тестовые цели писали `include(doctest)` ради функции `doctest_discover_tests()` из помощника апстрима. Как только `thirdparty/` попал в путь модулей, по этому имени CMake стал находить мой новый `thirdparty/doctest.cmake`, и конфигурация упала на `Unknown CMake command "doctest_discover_tests"`. Разводить имена я не стал, а сделал модуль полной заменой: он создаёт цель и сам подключает помощник апстрима.
+
+Вендоринг даёт сборку без сети, а урезанная копия под проектным `-Werror` ещё и заставляет решить, какой чужой код я готов читать и поддерживать. Цена тоже есть: обновлять копии теперь мне, а не `FetchContent`. Для того, кто собирает движок, главное вот что: после `git clone` конфигурация ничего не качает, а редактору не нужны ни сеть, ни Vulkan SDK.
+
+<!--
+ДЛЯ ЧЕЛОВЕКА: кадр темы про вендоринг, «деталь под лупой». Разобранная
+донорская приставка: руки мастера вынимают одну маленькую плату, а пустой
+корпус, блок питания и моток проводов сдвинуты к краю верстака. Пропорции
+16:9, минимум 1600 × 900. Если генерация не сложится, подойдёт скриншот
+дерева thirdparty в IDE.
+
+ALT RU: Мастер вынимает одну плату из разобранной донорской приставки, пустой корпус и блок питания сдвинуты к краю верстака
+ALT EN: The toymaker lifts one circuit board out of a gutted donor console, its empty shell and power brick pushed to the bench edge
+
+ДЛЯ AI:
+A workbench seen from over the toymaker's shoulder. In the centre lies a
+fully disassembled grey 8-bit home console of invented design, its parts
+spread out. The toymaker's hands, one holding a small screwdriver, lift a
+single small green circuit board out of the opened lower shell and hold it
+up into the lamplight. To the right, on a folded cloth, three other small
+boards already rest side by side, clean and sorted. Pushed to the far left
+edge of the bench are the parts that stay behind: the empty upper shell,
+a heavy black power brick and a loose tangle of cables. A jeweller's loupe
+on its headband lies next to the sorted boards. The lifted board is the
+brightest point of the frame; the discarded shell sits in soft shadow.
+
+FORMAT: 16:9 aspect ratio, at least 1600 x 900 pixels.
+
+STYLE (identical across all images, so the set reads as one series):
+  hand-drawn ink and watercolour illustration, like a page from a
+  craftsman's working sketchbook; clean confident linework and cosy,
+  cluttered-but-ordered interiors in the spirit of the antique shop in
+  Studio Ghibli's Whisper of the Heart; light steampunk touches in the
+  workshop only: brass gears, springs, wind-up keys, jeweller's loupes,
+  filament bulbs. Technical-drawing flourishes around the subject:
+  leader lines, dimension ticks and faint construction circles, never
+  readable writing. Retro game consoles, handhelds and cartridges are of
+  invented, unbranded design, recognisable only by the silhouette of
+  their era. Unless the scene above states otherwise, the only person in
+  frame is the toymaker, seen from behind or as hands at the workbench:
+  leather apron, rolled shirt sleeves, a loupe on a headband.
+  The whole illustration sits on a page torn from the sketchbook: ragged
+  deckle edges with visible paper fibres, and outside those edges the
+  image is fully transparent alpha, never a white, coloured or
+  rectangular fill.
+PALETTE: warm brass and copper, walnut wood, cream paper, with a cool
+  teal-green accent from old CRT glow.
+LIGHT AND TEXTURE: warm lamplight from one side, soft shadows, visible
+  paper grain, watercolour bleed at the edges, faint pencil
+  under-drawing left showing.
+NEGATIVE: no legible text, lettering, labels or numerals anywhere,
+  including on screens, cartridges and boxes; no logos, brand marks or
+  watermarks; no real console brands; no readable code on screens;
+  no straight cropped edges and no opaque background behind the torn
+  page; no flat corporate vector style; no neon or cyberpunk palette;
+  no photorealism or 3D render look; no close-up human faces; no clutter
+  that hides the subject.
+-->
+
+## Цифры {#numbers}
+
+| Что мерил                                          | Было                           | Стало           |
+| -------------------------------------------------- | ------------------------------ | --------------- |
+| Холодная сборка образа MD, amd64 / arm64           | ~233 мин одним джобом под QEMU | 15,6 / 13,3 мин |
+| Прогон тестов GBA под emibios                      | 0,34 с с заставкой BIOS        | 0,01 с          |
+| `assign` из однопроходного итератора, 1024 символа | 550–780 нс                     | 31–40 нс        |
+| Копия короткой `FixedString`                       | 14–17 нс                       | 2,1–2,7 нс      |
+
+Замеры `FixedString` снимал на macOS.
+
+## Что дальше {#next}
+
+Дальше бенчмарки поедут на приставки. Для MD и GBA нужны отчёт, таймер и свои раннеры, и только после этого станет видно, стоит ли переписывать поиск `find_first_of` в `StringView` на битовую маску. У образа N64 пока нет эмулятора, так что его тесты в CI не бегают. А реестр настроек в редакторе ждёт модели проекта, которая будет читать и писать манифест.
