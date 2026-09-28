@@ -65,7 +65,7 @@ While the log stayed empty, I suspected the ROM itself: either the CPU wasn't st
 
 An emulator in CI is a dependency just like the compiler, and it behaves in ways without a terminal that aren't documented anywhere. I no longer trust an emulator's exit code until I have seen the test fail. For someone writing a game on the engine, this is what changed: every PR runs 65 test cases and 391 checks on an emulated 68000 and ARM7, so a bug that only lives on the 68000 will show up before the merge.
 
-![An opened 16-bit console on the workbench wired to a CRT showing a column of green squares, a spare cable left unplugged beside it](/img/blog/2026-09-28-1.webp)
+![An opened Mega Drive on the workbench wired to a CRT showing a column of green squares, a spare cable left unplugged beside it](/img/blog/2026-09-28-1.webp)
 
 ## The string that didn't fit {#string}
 
@@ -106,7 +106,7 @@ There was one trap with doctest. The test targets called `include(doctest)` to g
 
 Vendoring gives an offline build, and a trimmed copy under the project's `-Werror` also forces me to decide which third-party code I'm willing to read and maintain. The cost is that I now update the copies by hand. For anyone building the engine, the main change is that configuring after `git clone` downloads nothing, and the editor needs neither the network nor the Vulkan SDK.
 
-![The toymaker lifts one circuit board out of a gutted donor console, its empty shell and power brick pushed to the bench edge](/img/blog/2026-09-28-3.webp)
+![The toymaker lifts the circuit board out of a gutted Game Boy Advance, its empty shell halves pushed to the edge of the bench](/img/blog/2026-09-28-3.webp)
 
 ## Numbers {#numbers}
 
