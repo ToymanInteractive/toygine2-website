@@ -20,7 +20,7 @@ const config: Config = {
   title: "ToyGine2",
   tagline:
     "Building a C++ game engine for retro style games from scratch — devlog & docs",
-  favicon: "img/favicon.ico",
+  favicon: "img/favicon.svg",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
