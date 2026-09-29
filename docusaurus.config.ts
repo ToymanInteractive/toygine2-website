@@ -14,7 +14,10 @@ const doxygenNavbarItem = doxygenNavbarItemJson as NavbarItems[number];
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const organizationName = "ToymanInteractive";
-const projectName = "toygine2-website";
+// Sources live here, but the site is published to the engine repository's
+// GitHub Pages, see .github/workflows/deploy.yaml
+const sourceRepositoryName = "toygine2-website";
+const projectName = "toygine2";
 
 const config: Config = {
   title: "ToyGine2",
@@ -72,7 +75,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`,
+          editUrl: `https://github.com/${organizationName}/${sourceRepositoryName}/tree/main/`,
           // The generated API reference has its own sidebar, keep it out of the docs one
           async sidebarItemsGenerator({
             defaultSidebarItemsGenerator,
@@ -97,7 +100,7 @@ const config: Config = {
             type: ["rss", "atom"],
             xslt: true,
           },
-          editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`,
+          editUrl: `https://github.com/${organizationName}/${sourceRepositoryName}/tree/main/`,
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
