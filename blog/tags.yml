@@ -66,3 +66,6 @@ cmake:
 testing:
   label: Testing
   description: Unit tests, coverage, and test infrastructure
+benchmarks:
+  label: Benchmarks
+  description: Performance measurements and benchmark infrastructure
