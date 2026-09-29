@@ -83,7 +83,7 @@ flowchart LR
   D -->|thresholds from main| E[PR comment]
 ```
 
-The clocks differ between consoles. On the GBA it is Timer 2 with no prescaler, cascaded into Timer 3 so the 16-bit counter doesn't overflow within an epoch. On the Mega Drive it is a frame counter plus the video chip's line counter. Inside VBlank the line counter repeats values, so the timestamp holds still there, as in SGDK. The optimizer barrier `sink = &value` didn't work: the assembly showed AppleClang, `m68k-elf-gcc` and `arm-none-eabi-gcc` all removing the computation entirely. An empty `asm volatile` statement replaced it.
+The clocks differ between consoles. On the GBA it is Timer 2 with no prescaler, cascaded into Timer 3 so the 16-bit counter doesn't overflow within an epoch. On the Mega Drive it is a frame counter plus the video chip's line counter. Inside VBlank the line counter repeats values, so the timestamp holds still there, as in SGDK. The optimizer barrier `sink = &value` didn't work: the assembly showed AppleClang, `m68k-elf-gcc` and `arm-none-eabi-gcc` all removing the computation entirely. It was replaced by `asm volatile("" : : "r,m"(value) : "memory")`: the instruction text is empty, but `value` goes in as an input operand, so the compiler has to compute it, and the `"memory"` clobber keeps the compiler from moving memory accesses across the barrier.
 
 One oddity I never explained. For four builds in a row, the set of cases in the binary moved the `compare` measurement from 3.99 to 26.48 ns, and on the fifth build the effect vanished. I checked CPU load and stack alignment and ruled both out. So I compare numbers only within one table from one build, where the `std` row serves as the control.
 
