@@ -130,6 +130,9 @@ jobs:
       github.event_name == 'pull_request' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     environment:
       name: pr-preview
       url: >-
@@ -158,11 +161,25 @@ jobs:
             github.event.pull_request.number }}@${{
             github.event.pull_request.head.sha }}
 
+      # One comment per pull request, updated in place on every push
+      - name: Comment preview link
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
+        with:
+          header: pr-preview
+          message: |
+            Site preview for ${{ github.event.pull_request.head.sha }}:
+            https://toymaninteractive.github.io/toygine2/pr-preview/pr-${{ github.event.pull_request.number }}/
+
+            GitHub Pages may need a minute or two to publish it.
+
   remove-preview:
     if: >-
       github.event.action == 'closed' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       # Syncing an empty folder with clean deletes the preview subfolder
       - name: Create empty folder
@@ -182,3 +199,11 @@ jobs:
           commit-message: >-
             preview: remove ${{ github.repository }}#${{
             github.event.pull_request.number }}
+
+      - name: Comment preview removal
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
+        with:
+          header: pr-preview
+          only_update: true
+          message: |
+            Site preview removed: the pull request is closed.
