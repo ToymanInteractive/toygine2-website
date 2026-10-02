@@ -18,6 +18,10 @@ const organizationName = "ToymanInteractive";
 // GitHub Pages, see .github/workflows/deploy.yaml
 const sourceRepositoryName = "toygine2-website";
 const projectName = "toygine2";
+// Pull request previews are published under a subfolder of the same site,
+// so CI overrides the base URL, see .github/workflows/deploy.yaml. CI sets
+// an empty value outside pull requests, treat it as unset.
+const previewBaseUrl = process.env.PREVIEW_BASE_URL || undefined;
 
 const config: Config = {
   title: "ToyGine2",
@@ -32,7 +36,9 @@ const config: Config = {
   },
 
   url: `https://${organizationName}.github.io`,
-  baseUrl: `/${projectName}/`,
+  baseUrl: previewBaseUrl ?? `/${projectName}/`,
+  // Keep previews out of search engines, the published site is the canonical one
+  noIndex: previewBaseUrl !== undefined,
   // GitHub Pages redirects to trailing slashes; doxygen2docusaurus generates its links to match
   trailingSlash: true,
 
