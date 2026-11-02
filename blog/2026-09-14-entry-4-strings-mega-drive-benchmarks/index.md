@@ -68,7 +68,7 @@ Search in `StringView` worked correctly, but I knew nothing about its speed: the
 
 I started with nanobench on the desktop. I took the first numbers from a debug build with no `-O` at all: the same change gave a 14x speedup there and 8x in release. Since then the rule is written down: measure release only.
 
-The measurements paid off at once. `find` switched to finding the first character through `traits_type::find` and went from 405 to 55.7 ns. For `rfind` I almost ported the libc++ strategy, which scans forward and remembers the last match. A case with the needle at the end of a four-kilobyte text showed the cost: 4.08 ns for the backward scan against 992 ns for libc++. The backward scan stayed, and I made each position cheaper by checking the needle's first and last byte.
+The measurements paid off at once. `find` switched to finding the first character through `traits_type::find` and went from 405 to 55.7 ns. For `rfind` I almost ported the libc++ strategy, which scans forward and remembers the last match. One case showed the cost. With the needle at the very end of a four-kilobyte text, the backward scan answered at once at 4.08 ns, while libc++'s forward scan crossed the whole text and took 992 ns. The backward scan stayed, and I made each position cheaper by checking the needle's first and last byte.
 
 On the desktop nanobench prints a table, while the console runner prints CSV lines with integers: timer ticks and call counts. A script on the CI host computes the median and spread and builds the report for Bencher. Later I tightened the format: the case and table row names are written once instead of in every epoch. I picked 7 epochs rather than 11, and not for statistical reasons: a line of the mGBA debug log is cut at 256 bytes, and with 11 epochs the worst line doesn't fit.
 
@@ -170,13 +170,13 @@ NEGATIVE: no legible text, lettering, labels or numerals inside the
 
 ## Numbers {#numbers}
 
-| What I measured       | Before                  | After                 |
-| --------------------- | ----------------------- | --------------------- |
-| `find(s, pos, count)` | 405 ns                  | 55.7 ns               |
-| `find(char, pos)`     | 40.4 ns                 | 5.12 ns               |
-| `rfind`, 103 bytes    | 165.9 ns                | 43.0 ns               |
-| `rfind`, 4 KB         | 6,524 ns                | 2,110 ns              |
-| Full-run CSV report   | 287 lines, 22,651 bytes | 27 lines, 6,418 bytes |
+| What I measured                         | Before                  | After                 |
+| --------------------------------------- | ----------------------- | --------------------- |
+| `find(s, pos, count)`                   | 405 ns                  | 55.7 ns               |
+| `find(char, pos)`                       | 40.4 ns                 | 5.12 ns               |
+| `rfind`, 103 bytes, needle at the front | 165.9 ns                | 43.0 ns               |
+| `rfind`, 4 KB, needle at the front      | 6,524 ns                | 2,110 ns              |
+| Full-run CSV report                     | 287 lines, 22,651 bytes | 27 lines, 6,418 bytes |
 
 Search timings were measured on macOS in release.
 

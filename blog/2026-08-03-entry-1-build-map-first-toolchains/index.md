@@ -51,7 +51,7 @@ I moved `base` to the end of the list in all 36 presets and checked with real ru
 <details>
 <summary>A right conclusion about MSVC and Xcode from a wrong argument</summary>
 
-A reviewer suggested adding debug presets for MSVC and Xcode, and I declined: those generators are multi-config, so `CMAKE_BUILD_TYPE` means nothing to them. I based that on the generator declared in the preset, but the one actually running was Ninja from `base`. On top of that, the script I used to compute the effective values resolved priority backwards. After the fix the conclusion turned out right, but by accident, and since then I read `CMakeCache.txt` instead of reasoning about what should have ended up there.
+A reviewer suggested adding debug presets for MSVC and Xcode, and I declined: those generators are multi-config, so `CMAKE_BUILD_TYPE` means nothing to them. I based that on the generator declared in the preset, but the one actually running was Ninja from `base`. The script I used to compute the effective values resolved priority backwards. After the fix the conclusion still held, but by accident: the reasoning behind it was wrong. Since then I read `CMakeCache.txt` instead of inferring what should have ended up there.
 
 </details>
 
@@ -104,4 +104,4 @@ The collector came by and asked whether the game would be on a real cartridge. I
 
 ## What's next {#next}
 
-The engine builds on 15 targets, but the build doesn't check anything yet. There are no tests, and the benchmarks option is on everywhere although there are no benchmarks either. The next line in the order book is the first tests: registering them with CTest and running them in CI.
+The engine builds on 15 targets, but those builds only compile. There are no tests, and the benchmarks option is on everywhere although there are no benchmarks either. The next line in the order book is the first tests: registering them with CTest and running them in CI.

@@ -315,12 +315,12 @@ NEGATIVE: no legible text, lettering, labels or numerals inside the
 
 ## Numbers {#numbers}
 
-| What I measured                                           | Before                              | After           |
-| --------------------------------------------------------- | ----------------------------------- | --------------- |
-| Cold build of the MD image, amd64 / arm64                 | about 233 min in one job under QEMU | 15.6 / 13.3 min |
-| GBA test run under emibios                                | 0.34 s with the BIOS animation      | 0.01 s          |
-| `assign` from a single-pass iterator, 1024 chars          | 550–780 ns                          | 31–40 ns        |
-| Copy construction, short text (`construction_copy_short`) | 14–17 ns                            | 2.1–2.7 ns      |
+| What I measured                                           | Before                                                  | After                                         |
+| --------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| Cold build of the MD image                                | about 233 min, both architectures in one job under QEMU | 15.6 min amd64 / 13.3 min arm64, one job each |
+| GBA test run under emibios                                | 0.34 s with the BIOS animation                          | 0.01 s                                        |
+| `assign` from a single-pass iterator, 1024 chars          | 550–780 ns                                              | 31–40 ns                                      |
+| Copy construction, short text (`construction_copy_short`) | 14–17 ns                                                | 2.1–2.7 ns                                    |
 
 The `FixedString` numbers are from macOS.
 
