@@ -6,13 +6,13 @@ tags: [cpp, ci, cmake, docker, testing, md, gba, benchmarks]
 date: 2026-09-28
 description: >
   The fifth entry in the retro shop journal. The engine's tests now run under
-  a Mega Drive emulator, the heap-free string learned assignment, and every
+  a Mega Drive emulator, toy::FixedString gained assignment support, and every
   dependency moved into the repository.
 image: /img/blog/2026-09-28-1.webp
 sidebar_position: 1
 ---
 
-The soldering iron sat in its stand all cycle: I took the Mega Drive off the shelf for tests, not for a repair. I'm writing ToyGine2, an engine for small games that should run on modern machines and on retro hardware. This cycle its tests passed under a Mega Drive emulator for the first time, the string type got assignment, and the build stopped going to the network.
+The soldering iron sat in its stand all cycle: I took the Mega Drive off the shelf for tests, not for a repair. I'm writing ToyGine2, an engine for small games that should run on modern machines and on retro hardware. This cycle its tests passed under a Mega Drive emulator for the first time, `toy::FixedString` gained assignment support, and the build stopped using the network.
 
 <!-- truncate -->
 

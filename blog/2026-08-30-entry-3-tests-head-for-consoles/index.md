@@ -45,7 +45,7 @@ difference < epsilon * (1 + larger)
 
 The formulas look alike, but near one, with a difference of one and a half epsilons, doctest says "equal" and mine said "no". No existing test changed its verdict, so the mismatch would have lived until the first test right at the threshold. Now a compile-time check guards the formula.
 
-The review also suggested computing everything in `double`, as doctest does. I turned that down after measuring. The Mega Drive's 68000 has no FPU, and a single comparison of two `float`s would have grown from 168 to 248 bytes of code. The cost would have landed on exactly the console the runner was written for, so I documented the narrow precision difference instead of removing it.
+The review also suggested computing everything in `double`, as doctest does. I turned that down after measuring. The Mega Drive's 68000 has no FPU, and a single comparison of two `float`s would have grown from 168 to 248 bytes of code. The cost would have landed on exactly the console the runner was written for, so I documented the narrow precision difference instead of removing it. That is the one known exception to the rule: a comparison right at the tolerance boundary can come out differently under the two runners.
 
 To keep the rule from resting on good faith, the same test set builds twice on desktop: as `toygine-units` under doctest and as `toygine-units-builtin` under the built-in runner. On the first converted file the built-in runner reported `1..7` and `passed=18`, doctest `test cases: 7 | assertions: 18`. Changing `0xFF` to `0xFE` in one check broke both targets.
 
