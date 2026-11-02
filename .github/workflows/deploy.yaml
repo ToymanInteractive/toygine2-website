@@ -4,10 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
 
-# A newer push to the same pull request (or its closing) cancels the run in
-# progress, so a stale preview never lands after the cleanup.
+# A newer push to the same pull request cancels the run in progress. Closing
+# shares this group name from remove-preview.yaml, so a stale preview never
+# lands after the cleanup.
 concurrency:
   group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -17,7 +18,6 @@ permissions:
 
 jobs:
   build:
-    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -91,14 +91,14 @@ jobs:
   #
   # Pull request previews live in pr-preview/pr-<number>/ of the same branch.
   # The main deploy cleans everything except that folder, each preview cleans
-  # only its own subfolder, and closing the pull request removes it. Forks get
-  # no secrets, so their pull requests are built but not previewed.
+  # only its own subfolder, and remove-preview.yaml removes it on closing.
+  # Forks get no secrets, so their pull requests are built but not previewed.
   #
-  # All three deployment jobs write the same branch, so they share the `pages`
-  # concurrency group: the action force-pushes, so concurrent writes let the
-  # later one discard the earlier commit.
-  # `queue: max` because the default queue replaces a pending job, which would
-  # drop a preview removal and leave a closed pull request's preview published.
+  # The two deployment jobs here and remove-preview.yaml all write the same
+  # branch, so they share the `pages` concurrency group: the action
+  # force-pushes, so concurrent writes let the later one discard the earlier
+  # commit. `queue: max` because the default queue replaces a pending job,
+  # which would drop a preview removal and leave it published.
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -192,48 +192,3 @@ jobs:
             https://toymaninteractive.github.io/toygine2/pr-preview/pr-${{ github.event.pull_request.number }}/
 
             GitHub Pages may need a minute or two to publish it.
-
-  remove-preview:
-    if: >-
-      github.event.action == 'closed' &&
-      github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-      queue: max
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      # Syncing an empty folder with clean deletes the preview subfolder
-      - name: Create empty folder
-        run: mkdir empty
-
-      - name: Remove preview from toygine2 GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.9.0
-        with:
-          ssh-key: ${{ secrets.TOYGINE2_PAGES_DEPLOY_KEY }}
-          repository-name: ToymanInteractive/toygine2
-          branch: gh-pages
-          folder: empty
-          target-folder: pr-preview/pr-${{ github.event.pull_request.number }}
-          clean: true
-          git-config-name: github-actions[bot]
-          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit-message: >-
-            preview: remove ${{ github.repository }}#${{
-            github.event.pull_request.number }}
-
-      - name: Comment preview removal
-        uses: marocchino/sticky-pull-request-comment@v3.0.5
-        with:
-          header: pr-preview
-          only_update: true
-          message: |
-            Site preview removed: the pull request is closed.
