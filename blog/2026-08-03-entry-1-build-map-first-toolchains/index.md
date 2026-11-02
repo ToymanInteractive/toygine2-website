@@ -57,7 +57,7 @@ A reviewer suggested adding debug presets for MSVC and Xcode, and I declined: th
 
 The Nintendo 64 came up separately. There's no toolchain for it in `cmake/`, and `cmake --preset n64-debug` happily configured with the system `/usr/bin/c++`, pretending to be an N64 build. Now configuration fails with `Nintendo 64 toolchain is not integrated yet`.
 
-A preset is code like any other, and you check it against the cache, not against what it says. For someone building the engine, it comes down to one command: `cmake --preset gba-release` builds for the GBA, and a platform with no toolchain says so plainly instead of building something for the host.
+A preset is code like any other, and you check it against the cache, not against what it says. For someone building the engine, it comes down to two commands: `cmake --preset gba-release` configures for the GBA, and `cmake --build --preset gba-release` compiles. A platform with no toolchain says so plainly at configuration instead of building something for the host.
 
 ![An 8-bit home console on the repair bench with a pass-through adapter between its slot and the cartridge, under a lit magnifier](/img/blog/2026-08-03-1.webp)
 
