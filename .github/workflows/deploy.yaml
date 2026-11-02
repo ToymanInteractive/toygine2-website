@@ -97,6 +97,8 @@ jobs:
   # All three deployment jobs write the same branch, so they share the `pages`
   # concurrency group: the action force-pushes, so concurrent writes let the
   # later one discard the earlier commit.
+  # `queue: max` because the default queue replaces a pending job, which would
+  # drop a preview removal and leave a closed pull request's preview published.
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -104,6 +106,7 @@ jobs:
     concurrency:
       group: pages
       cancel-in-progress: false
+      queue: max
     environment:
       name: github-pages
       url: https://toymaninteractive.github.io/toygine2/
@@ -142,6 +145,7 @@ jobs:
     concurrency:
       group: pages
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: read
       pull-requests: write
@@ -197,6 +201,7 @@ jobs:
     concurrency:
       group: pages
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: read
       pull-requests: write
